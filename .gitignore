@@ -17,12 +17,7 @@ Thumbs.db
 admin/i18n/flat.txt
 admin/i18n/*/flat.txt
 
-# Admin build output (rebuilt from src-admin/)
-admin/*.html
-admin/*.js
-admin/*.css
-admin/*.map
-admin/assets/
+# src-admin build intermediate
 
 # src-admin build
 src-admin/build
