@@ -18,6 +18,24 @@ export interface Logger {
 	warn(message: string): void;
 }
 
+/** Option entry for autocomplete/select controls. */
+export interface GroupNameOption {
+	/** The value stored when selected. */
+	value: string;
+	/** The label shown to the user. */
+	label: string;
+}
+
+/**
+ * Build a list of autocomplete options from the configured logging groups.
+ * Used by the admin UI to suggest group names in the data-points table.
+ *
+ * @param groups - Configured logging groups
+ */
+export function buildGroupNameOptions(groups: LoggingGroup[]): GroupNameOption[] {
+	return groups.map(g => ({ value: g.name, label: g.name }));
+}
+
 /**
  * Group enabled datapoints by their group name and validate references.
  *

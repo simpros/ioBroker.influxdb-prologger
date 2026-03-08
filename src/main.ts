@@ -9,7 +9,7 @@
 import * as utils from '@iobroker/adapter-core';
 import { CronJob } from 'cron';
 import type { DatapointConfig, LoggingGroup } from './lib/adapter-config';
-import { resolveGroups, type ResolvedGroup } from './lib/group-resolver';
+import { buildGroupNameOptions, resolveGroups, type ResolvedGroup } from './lib/group-resolver';
 import { InfluxClient } from './lib/influx-client';
 import { formatLineProtocol } from './lib/line-protocol';
 
@@ -246,6 +246,14 @@ class InfluxdbPrologger extends utils.Adapter {
 	 */
 	private async onMessage(obj: ioBroker.Message): Promise<void> {
 		if (typeof obj !== 'object' || !obj.message) {
+			return;
+		}
+
+		if (obj.command === 'getGroupNames') {
+			const names = buildGroupNameOptions(this.config.groups || []);
+			if (obj.callback) {
+				this.sendTo(obj.from, obj.command, names, obj.callback);
+			}
 			return;
 		}
 
