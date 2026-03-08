@@ -75,14 +75,14 @@
 							"attr": "enabled",
 							"type": "checkbox",
 							"title": "enabled",
-							"width": "8%",
+							"width": "5%",
 							"default": true
 						},
 						{
 							"attr": "name",
 							"type": "text",
 							"title": "groupName",
-							"width": "22%",
+							"width": "25%",
 							"filter": true,
 							"sort": true
 						},
@@ -96,7 +96,7 @@
 							"attr": "triggerType",
 							"type": "select",
 							"title": "triggerType",
-							"width": "18%",
+							"width": "15%",
 							"options": [
 								{ "label": "triggerCron", "value": "cron" },
 								{ "label": "triggerOnChange", "value": "onChange" }
@@ -107,9 +107,10 @@
 							"attr": "cronExpression",
 							"type": "text",
 							"title": "cronExpression",
-							"width": "22%",
+							"width": "25%",
 							"default": "*/15 * * * *",
-							"help": "cronHelp"
+							"placeholder": "*/15 * * * *",
+							"hidden": "data.triggerType === 'onChange'"
 						},
 						{
 							"attr": "batchWrite",
