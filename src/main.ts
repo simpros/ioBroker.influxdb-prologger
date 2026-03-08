@@ -250,7 +250,9 @@ class InfluxdbPrologger extends utils.Adapter {
 		}
 
 		if (obj.command === 'getGroupNames') {
-			const names = buildGroupNameOptions(this.config.groups || []);
+			const msg = obj.message as { groups?: LoggingGroup[] } | undefined;
+			const groups = msg?.groups ?? this.config.groups ?? [];
+			const names = buildGroupNameOptions(groups);
 			if (obj.callback) {
 				this.sendTo(obj.from, obj.command, names, obj.callback);
 			}
