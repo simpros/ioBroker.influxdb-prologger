@@ -73,8 +73,9 @@
 		"dataSource": "push",
 		"messagebox": true,
 		"adminUI": {
-			"config": "json"
+			"config": "html"
 		},
+		"eraseOnUpload": true,
 		"dependencies": [
 			{
 				"js-controller": ">=6.0.11"
