@@ -1,0 +1,128 @@
+{
+	"common": {
+		"name": "influxdb-prologger",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"uk": "Початкова версія",
+				"zh-cn": "首次出版"
+			}
+		},
+		"titleLang": {
+			"en": "InfluxDB ProLogger",
+			"de": "InfluxDB ProLogger",
+			"ru": "InfluxDB Прологгер",
+			"pt": "InfluxDB ProLogger",
+			"nl": "InfluxDB ProLogger",
+			"fr": "InfluxDB ProLogger",
+			"it": "InfluxDB ProLogger",
+			"es": "InfluxDB ProLogger",
+			"pl": "InfluxDB ProLogger",
+			"uk": "InfluxDB ProLogger",
+			"zh-cn": "InfluxDB ProLogger"
+		},
+		"desc": {
+			"en": "Flexible InfluxDB v2 data logger with configurable logging groups, multiple buckets, cron-based and on-change triggers",
+			"de": "Flexibler InfluxDB v2-Datenlogger mit konfigurierbaren Protokollierungsgruppen, mehreren Buckets, Cron-basierten und On-Change-Triggern",
+			"ru": "Гибкий регистратор данных InfluxDB v2 с настраиваемыми группами журналирования, несколькими сегментами, триггерами на основе cron и триггерами при изменении.",
+			"pt": "Registrador de dados InfluxDB v2 flexível com grupos de registro configuráveis, vários buckets, gatilhos baseados em cron e em mudança",
+			"nl": "Flexibele InfluxDB v2 datalogger met configureerbare loggroepen, meerdere buckets, cron-gebaseerde en on-change triggers",
+			"fr": "Enregistreur de données InfluxDB v2 flexible avec groupes de journalisation configurables, plusieurs compartiments, déclencheurs cron et en cas de changement",
+			"it": "Data logger flessibile InfluxDB v2 con gruppi di registrazione configurabili, bucket multipli, trigger basati su cron e su modifica",
+			"es": "Registrador de datos flexible InfluxDB v2 con grupos de registro configurables, múltiples depósitos, activadores basados ​​en cron y en caso de cambio",
+			"pl": "Elastyczny rejestrator danych InfluxDB v2 z konfigurowalnymi grupami rejestrowania, wieloma zasobnikami, wyzwalaczami opartymi na cron i na zmianie",
+			"uk": "Гнучкий реєстратор даних InfluxDB v2 із настроюваними групами журналювання, декількома сегментами, тригерами на основі cron і on-change",
+			"zh-cn": "灵活的 InfluxDB v2 数据记录器，具有可配置的日志记录组、多个存储桶、基于 cron 和变化的触发器"
+		},
+		"authors": [
+			"Simon Prosen <simon@prosen.dev>"
+		],
+		"keywords": [
+			"influxdb",
+			"logging",
+			"data-logger",
+			"iot",
+			"smart-home",
+			"monitoring",
+			"time-series"
+		],
+		"licenseInformation": {
+			"type": "free",
+			"license": "MIT"
+		},
+		"platform": "Javascript/Node.js",
+		"icon": "influxdb-prologger.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/simon-prosen/ioBroker.influxdb-prologger/main/admin/influxdb-prologger.png",
+		"readme": "https://github.com/simon-prosen/ioBroker.influxdb-prologger/blob/main/README.md",
+		"loglevel": "info",
+		"tier": 3,
+		"mode": "daemon",
+		"type": "storage",
+		"compact": true,
+		"connectionType": "local",
+		"dataSource": "push",
+		"messagebox": true,
+		"adminUI": {
+			"config": "json"
+		},
+		"dependencies": [
+			{
+				"js-controller": ">=6.0.11"
+			}
+		],
+		"globalDependencies": [
+			{
+				"admin": ">=7.0.23"
+			}
+		]
+	},
+	"native": {
+		"protocol": "http",
+		"host": "",
+		"port": 8086,
+		"organization": "",
+		"token": "",
+		"groups": [],
+		"datapoints": [],
+		"writeTimeout": 5000,
+		"retryOnError": true,
+		"maxRetries": 3,
+		"enableDebugLogs": false
+	},
+	"encryptedNative": ["token"],
+	"protectedNative": ["token"],
+	"objects": [],
+	"instanceObjects": [
+		{
+			"_id": "info",
+			"type": "channel",
+			"common": {
+				"name": "Information"
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.connection",
+			"type": "state",
+			"common": {
+				"role": "indicator.connected",
+				"name": "Device or service connected",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		}
+	]
+}
