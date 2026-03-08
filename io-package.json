@@ -73,7 +73,7 @@
 		"dataSource": "push",
 		"messagebox": true,
 		"adminUI": {
-			"config": "html"
+			"config": "materialize"
 		},
 		"eraseOnUpload": true,
 		"dependencies": [
