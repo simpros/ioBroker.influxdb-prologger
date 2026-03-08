@@ -9,15 +9,14 @@
 import * as utils from '@iobroker/adapter-core';
 import { CronJob } from 'cron';
 import type { DatapointConfig, LoggingGroup } from './lib/adapter-config';
-
-interface ResolvedGroup {
-	group: LoggingGroup;
-	datapoints: DatapointConfig[];
-}
+import { resolveGroups, type ResolvedGroup } from './lib/group-resolver';
+import { InfluxClient } from './lib/influx-client';
+import { formatLineProtocol } from './lib/line-protocol';
 
 class InfluxdbPrologger extends utils.Adapter {
 	private cronJobs: CronJob[] = [];
 	private onChangeMap: Map<string, { group: LoggingGroup; datapoint: DatapointConfig }[]> = new Map();
+	private influxClient!: InfluxClient;
 
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
@@ -62,11 +61,27 @@ class InfluxdbPrologger extends utils.Adapter {
 			return;
 		}
 
-		// Build group lookup and resolve datapoints per group
-		const resolvedGroups = this.resolveGroups(groups, datapoints);
+		// Initialize InfluxDB client
+		this.influxClient = new InfluxClient(
+			{
+				protocol: this.config.protocol,
+				host: this.config.host,
+				port: this.config.port,
+				organization: this.config.organization,
+				token: this.config.token,
+				writeTimeout: this.config.writeTimeout,
+				retryOnError: this.config.retryOnError,
+				maxRetries: this.config.maxRetries,
+			},
+			this.log,
+			this.config.enableDebugLogs,
+		);
+
+		// Resolve datapoints into groups
+		const resolved = resolveGroups(groups, datapoints, this.log);
 
 		// Test connection on startup
-		const connected = await this.testInfluxConnection();
+		const connected = await this.influxClient.testConnection();
 		if (!connected) {
 			this.log.error('Cannot connect to InfluxDB. Please check your connection settings.');
 			return;
@@ -74,63 +89,27 @@ class InfluxdbPrologger extends utils.Adapter {
 		await this.setStateAsync('info.connection', true, true);
 
 		// Setup triggers for each resolved group
-		for (const resolved of resolvedGroups) {
-			if (!resolved.group.enabled) {
-				this.log.info(`Group "${resolved.group.name}" is disabled, skipping.`);
+		for (const entry of resolved) {
+			if (!entry.group.enabled) {
+				this.log.info(`Group "${entry.group.name}" is disabled, skipping.`);
 				continue;
 			}
-			if (resolved.datapoints.length === 0) {
-				this.log.warn(`Group "${resolved.group.name}" has no enabled data points, skipping.`);
+			if (entry.datapoints.length === 0) {
+				this.log.warn(`Group "${entry.group.name}" has no enabled data points, skipping.`);
 				continue;
 			}
 
-			if (resolved.group.triggerType === 'cron') {
-				this.setupCronGroup(resolved);
-			} else if (resolved.group.triggerType === 'onChange') {
-				this.setupOnChangeGroup(resolved);
+			if (entry.group.triggerType === 'cron') {
+				this.setupCronGroup(entry);
+			} else if (entry.group.triggerType === 'onChange') {
+				this.setupOnChangeGroup(entry);
 			}
 		}
 
 		this.log.info(
-			`InfluxDB ProLogger started: ${resolvedGroups.length} group(s), ` +
+			`InfluxDB ProLogger started: ${resolved.length} group(s), ` +
 				`${datapoints.filter(dp => dp.enabled).length} data point(s) active.`,
 		);
-	}
-
-	/**
-	 * Group datapoints by their group name and validate references.
-	 *
-	 * @param groups - Configured logging groups
-	 * @param datapoints - Configured data points
-	 */
-	private resolveGroups(groups: LoggingGroup[], datapoints: DatapointConfig[]): ResolvedGroup[] {
-		const groupMap = new Map<string, LoggingGroup>();
-		for (const group of groups) {
-			groupMap.set(group.name, group);
-		}
-
-		const resolved = new Map<string, ResolvedGroup>();
-		for (const group of groups) {
-			resolved.set(group.name, { group, datapoints: [] });
-		}
-
-		for (const dp of datapoints) {
-			if (!dp.enabled) {
-				continue;
-			}
-
-			if (!groupMap.has(dp.group)) {
-				this.log.warn(
-					`Data point "${dp.objectId}" references unknown group "${dp.group}". ` +
-						`Available groups: ${[...groupMap.keys()].join(', ')}`,
-				);
-				continue;
-			}
-
-			resolved.get(dp.group)!.datapoints.push(dp);
-		}
-
-		return [...resolved.values()];
 	}
 
 	/**
@@ -177,8 +156,7 @@ class InfluxdbPrologger extends utils.Adapter {
 			try {
 				const state = await this.getForeignStateAsync(dp.objectId);
 				if (state?.val !== null && state?.val !== undefined) {
-					const line = this.formatLineProtocol(dp.measurement, dp.tags, dp.field, state.val);
-					lines.push(line);
+					lines.push(formatLineProtocol(dp.measurement, dp.tags, dp.field, state.val));
 				} else if (this.config.enableDebugLogs) {
 					this.log.debug(`State "${dp.objectId}" has no value, skipping.`);
 				}
@@ -195,8 +173,10 @@ class InfluxdbPrologger extends utils.Adapter {
 			return;
 		}
 
-		const lineData = lines.join('\n');
-		await this.writeToInflux(group.bucket, lineData);
+		const success = await this.influxClient.write(group.bucket, lines.join('\n'));
+		if (!success) {
+			void this.setStateAsync('info.connection', false, true);
+		}
 	}
 
 	/**
@@ -246,142 +226,16 @@ class InfluxdbPrologger extends utils.Adapter {
 				continue;
 			}
 
-			const line = this.formatLineProtocol(datapoint.measurement, datapoint.tags, datapoint.field, state.val);
+			const line = formatLineProtocol(datapoint.measurement, datapoint.tags, datapoint.field, state.val);
 
 			if (this.config.enableDebugLogs) {
 				this.log.debug(`On-change write for "${id}" -> bucket "${group.bucket}": ${line}`);
 			}
 
-			await this.writeToInflux(group.bucket, line);
-		}
-	}
-
-	/**
-	 * Format a single InfluxDB line protocol entry.
-	 * Format: measurement,tag1=val1,tag2=val2 field=value
-	 *
-	 * @param measurement - InfluxDB measurement name
-	 * @param tags - Comma-separated tags (key=value format)
-	 * @param field - InfluxDB field name
-	 * @param value - The state value to format
-	 */
-	private formatLineProtocol(measurement: string, tags: string, field: string, value: ioBroker.StateValue): string {
-		const tagsPart = tags ? `,${tags}` : '';
-		const formattedValue = this.formatInfluxValue(value);
-		return `${measurement}${tagsPart} ${field}=${formattedValue}`;
-	}
-
-	/**
-	 * Format a value for InfluxDB line protocol.
-	 * Strings are quoted, booleans are lowercased, numbers are raw.
-	 *
-	 * @param value - The ioBroker state value
-	 */
-	private formatInfluxValue(value: ioBroker.StateValue): string {
-		if (typeof value === 'string') {
-			// Escape quotes in string values
-			return `"${value.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
-		}
-		if (typeof value === 'boolean') {
-			return value ? 'true' : 'false';
-		}
-		// Numbers and everything else
-		return String(value);
-	}
-
-	/**
-	 * Write line protocol data to InfluxDB via HTTP POST.
-	 *
-	 * @param bucket - Target InfluxDB bucket name
-	 * @param lineData - Line protocol formatted data
-	 */
-	private async writeToInflux(bucket: string, lineData: string): Promise<void> {
-		const url =
-			`${this.config.protocol}://${this.config.host}:${this.config.port}` +
-			`/api/v2/write?bucket=${encodeURIComponent(bucket)}&org=${encodeURIComponent(this.config.organization)}`;
-
-		let lastError: Error | null = null;
-		const maxAttempts = this.config.retryOnError ? (this.config.maxRetries || 3) + 1 : 1;
-
-		for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-			try {
-				const response = await fetch(url, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'text/plain',
-						Authorization: `Token ${this.config.token}`,
-					},
-					body: lineData,
-					signal: AbortSignal.timeout(this.config.writeTimeout || 5000),
-				});
-
-				if (response.ok) {
-					if (this.config.enableDebugLogs) {
-						this.log.debug(`Successfully wrote to bucket "${bucket}" (attempt ${attempt})`);
-					}
-					return;
-				}
-
-				const responseText = await response.text();
-				lastError = new Error(`HTTP ${response.status}: ${responseText}`);
-
-				// Don't retry on client errors (4xx) except 429 (rate limit)
-				if (response.status >= 400 && response.status < 500 && response.status !== 429) {
-					this.log.error(`InfluxDB write failed (bucket "${bucket}"): ${lastError.message}`);
-					return;
-				}
-
-				this.log.warn(
-					`InfluxDB write attempt ${attempt}/${maxAttempts} failed (bucket "${bucket}"): ${lastError.message}`,
-				);
-			} catch (err) {
-				lastError = err instanceof Error ? err : new Error(String(err));
-				this.log.warn(
-					`InfluxDB write attempt ${attempt}/${maxAttempts} failed (bucket "${bucket}"): ${lastError.message}`,
-				);
+			const success = await this.influxClient.write(group.bucket, line);
+			if (!success) {
+				void this.setStateAsync('info.connection', false, true);
 			}
-
-			// Wait before retry (exponential backoff)
-			if (attempt < maxAttempts) {
-				const delay = Math.min(1000 * Math.pow(2, attempt - 1), 10000);
-				await new Promise(resolve => setTimeout(resolve, delay));
-			}
-		}
-
-		if (lastError) {
-			this.log.error(
-				`InfluxDB write failed after ${maxAttempts} attempt(s) (bucket "${bucket}"): ${lastError.message}`,
-			);
-			void this.setStateAsync('info.connection', false, true);
-		}
-	}
-
-	/**
-	 * Test the InfluxDB connection by querying the health endpoint.
-	 */
-	private async testInfluxConnection(): Promise<boolean> {
-		const url = `${this.config.protocol}://${this.config.host}:${this.config.port}/health`;
-
-		try {
-			const response = await fetch(url, {
-				method: 'GET',
-				headers: {
-					Authorization: `Token ${this.config.token}`,
-				},
-				signal: AbortSignal.timeout(this.config.writeTimeout || 5000),
-			});
-
-			if (response.ok) {
-				this.log.info(`Successfully connected to InfluxDB at ${this.config.host}:${this.config.port}`);
-				return true;
-			}
-
-			const text = await response.text();
-			this.log.error(`InfluxDB health check failed: HTTP ${response.status} - ${text}`);
-			return false;
-		} catch (err) {
-			this.log.error(`InfluxDB connection test failed: ${err instanceof Error ? err.message : String(err)}`);
-			return false;
 		}
 	}
 
@@ -404,35 +258,13 @@ class InfluxdbPrologger extends utils.Adapter {
 				token: string;
 			};
 
-			const url = `${msg.protocol}://${msg.host}:${msg.port}/health`;
+			const result = await InfluxClient.testWithConfig(msg);
 
-			try {
-				const response = await fetch(url, {
-					method: 'GET',
-					headers: {
-						Authorization: `Token ${msg.token}`,
-					},
-					signal: AbortSignal.timeout(5000),
-				});
-
-				if (response.ok) {
-					if (obj.callback) {
-						this.sendTo(obj.from, obj.command, { result: 'Connection successful!' }, obj.callback);
-					}
+			if (obj.callback) {
+				if (result.success) {
+					this.sendTo(obj.from, obj.command, { result: result.message }, obj.callback);
 				} else {
-					const text = await response.text();
-					if (obj.callback) {
-						this.sendTo(obj.from, obj.command, { error: `HTTP ${response.status}: ${text}` }, obj.callback);
-					}
-				}
-			} catch (err) {
-				if (obj.callback) {
-					this.sendTo(
-						obj.from,
-						obj.command,
-						{ error: `Connection failed: ${err instanceof Error ? err.message : String(err)}` },
-						obj.callback,
-					);
+					this.sendTo(obj.from, obj.command, { error: result.message }, obj.callback);
 				}
 			}
 		}
