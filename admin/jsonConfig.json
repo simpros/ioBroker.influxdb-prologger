@@ -66,37 +66,36 @@
 					"sm": 12
 				},
 				"groups": {
-					"type": "table",
+					"type": "accordion",
 					"label": "loggingGroups",
 					"sm": 12,
-					"uniqueColumns": ["name"],
+					"titleAttr": "name",
 					"items": [
 						{
 							"attr": "enabled",
 							"type": "checkbox",
-							"title": "enabled",
-							"width": "5%",
+							"label": "enabled",
+							"sm": 2,
 							"default": true
 						},
 						{
 							"attr": "name",
 							"type": "text",
-							"title": "groupName",
-							"width": "25%",
-							"filter": true,
-							"sort": true
+							"label": "groupName",
+							"sm": 5
 						},
 						{
 							"attr": "bucket",
 							"type": "text",
-							"title": "bucket",
-							"width": "20%"
+							"label": "bucket",
+							"sm": 5
 						},
 						{
 							"attr": "triggerType",
 							"type": "select",
-							"title": "triggerType",
-							"width": "15%",
+							"label": "triggerType",
+							"sm": 4,
+							"newLine": true,
 							"options": [
 								{ "label": "triggerCron", "value": "cron" },
 								{ "label": "triggerOnChange", "value": "onChange" }
@@ -106,8 +105,8 @@
 						{
 							"attr": "cronExpression",
 							"type": "text",
-							"title": "cronExpression",
-							"width": "25%",
+							"label": "cronExpression",
+							"sm": 4,
 							"default": "*/15 * * * *",
 							"placeholder": "*/15 * * * *",
 							"hidden": "data.triggerType === 'onChange'"
@@ -115,9 +114,8 @@
 						{
 							"attr": "batchWrite",
 							"type": "checkbox",
-							"title": "batchWrite",
-							"width": "10%",
-							"default": true
+							"label": "batchWrite",
+							"sm": 4
 						}
 					],
 					"default": []
