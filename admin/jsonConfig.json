@@ -132,56 +132,51 @@
 					"sm": 12
 				},
 				"datapoints": {
-					"type": "accordion",
+					"type": "table",
 					"label": "datapoints",
 					"sm": 12,
-					"titleAttr": "objectId",
+					"compact": true,
 					"items": [
 						{
 							"attr": "enabled",
 							"type": "checkbox",
-							"label": "enabled",
-							"sm": 2,
+							"title": "enabled",
+							"width": "5%",
 							"default": true
 						},
 						{
 							"attr": "group",
 							"type": "selectSendTo",
 							"command": "getGroupNames",
-							"jsonData": "{\"groups\": ${globalData.groups}}",
 							"noTranslation": true,
 							"alsoDependsOn": ["groups"],
-							"label": "group",
-							"sm": 5
+							"title": "group",
+							"width": "15%"
 						},
 						{
 							"attr": "objectId",
-							"type": "objectId",
-							"label": "objectId",
-							"sm": 5,
-							"filter": {
-								"type": "state"
-							}
+							"type": "text",
+							"title": "objectId",
+							"width": "25%"
 						},
 						{
 							"attr": "measurement",
 							"type": "text",
-							"label": "measurement",
-							"sm": 4,
-							"newLine": true
+							"title": "measurement",
+							"width": "20%"
 						},
 						{
 							"attr": "field",
 							"type": "text",
-							"label": "fieldName",
-							"sm": 4,
+							"title": "fieldName",
+							"width": "12%",
 							"default": "value"
 						},
 						{
 							"attr": "tags",
 							"type": "text",
-							"label": "tags",
-							"sm": 4,
+							"title": "tags",
+							"width": "23%",
 							"placeholder": "key=value,key=value"
 						}
 					],
