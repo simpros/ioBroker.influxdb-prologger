@@ -51,8 +51,18 @@ export default function GroupsTab({ native, onChange }: GroupsTabProps): React.J
 	};
 
 	const updateGroup = (index: number, field: keyof LoggingGroup, value: unknown): void => {
+		const oldName = groups[index].name;
 		const updated = groups.map((g, i) => (i === index ? { ...g, [field]: value } : g));
 		updateGroups(updated);
+
+		// Cascade group name change to all assigned datapoints
+		if (field === 'name' && typeof value === 'string' && oldName !== value) {
+			const datapoints = native.datapoints || [];
+			const updatedDatapoints = datapoints.map(dp =>
+				dp.group === oldName ? { ...dp, group: value } : dp,
+			);
+			onChange('datapoints', updatedDatapoints);
+		}
 	};
 
 	return (

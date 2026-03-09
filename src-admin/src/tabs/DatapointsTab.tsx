@@ -5,6 +5,7 @@ import {
 	Checkbox,
 	FormControl,
 	IconButton,
+	InputLabel,
 	MenuItem,
 	Select,
 	Table,
@@ -40,6 +41,7 @@ const DEFAULT_DATAPOINT: DatapointConfig = {
 
 export default function DatapointsTab({ native, onChange, socket, theme }: DatapointsTabProps): React.JSX.Element {
 	const [selectIdIndex, setSelectIdIndex] = useState<number | null>(null);
+	const [groupFilter, setGroupFilter] = useState<string>('');
 
 	const datapoints = native.datapoints || [];
 	const groups = native.groups || [];
@@ -62,15 +64,38 @@ export default function DatapointsTab({ native, onChange, socket, theme }: Datap
 		updateDatapoints(updated);
 	};
 
+	const filteredDatapoints = datapoints
+		.map((dp, index) => ({ dp, index }))
+		.filter(({ dp }) => !groupFilter || dp.group === groupFilter);
+
 	return (
 		<Box>
 			<Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
 				{I18n.t('datapointsInfo')}
 			</Typography>
 
-			<Button variant="outlined" startIcon={<AddIcon />} onClick={addDatapoint} sx={{ mb: 2 }}>
-				{I18n.t('addDatapoint')}
-			</Button>
+			<Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+				<Button variant="outlined" startIcon={<AddIcon />} onClick={addDatapoint}>
+					{I18n.t('addDatapoint')}
+				</Button>
+				{groupNames.length > 0 && (
+					<FormControl size="small" sx={{ minWidth: 200 }}>
+						<InputLabel>{I18n.t('filterByGroup')}</InputLabel>
+						<Select
+							value={groupFilter}
+							label={I18n.t('filterByGroup')}
+							onChange={e => setGroupFilter(e.target.value)}
+						>
+							<MenuItem value="">{I18n.t('allGroups')}</MenuItem>
+							{groupNames.map(name => (
+								<MenuItem key={name} value={name}>
+									{name}
+								</MenuItem>
+							))}
+						</Select>
+					</FormControl>
+				)}
+			</Box>
 
 			{datapoints.length === 0 ? (
 				<Typography variant="body2" color="text.secondary" sx={{ fontStyle: 'italic' }}>
@@ -91,7 +116,7 @@ export default function DatapointsTab({ native, onChange, socket, theme }: Datap
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{datapoints.map((dp, index) => (
+							{filteredDatapoints.map(({ dp, index }) => (
 								<TableRow key={index} hover>
 									<TableCell padding="checkbox">
 										<Checkbox

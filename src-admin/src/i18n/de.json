@@ -43,5 +43,7 @@
 	"noDatapointsDefined": "Noch keine Datenpunkte definiert.",
 	"selectGroup": "Gruppe auswählen...",
 	"selectObject": "Objekt auswählen",
-	"browseObjects": "Objekte durchsuchen"
+	"browseObjects": "Objekte durchsuchen",
+	"filterByGroup": "Nach Gruppe filtern",
+	"allGroups": "Alle Gruppen"
 }

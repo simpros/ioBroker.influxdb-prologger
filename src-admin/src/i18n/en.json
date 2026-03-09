@@ -43,5 +43,7 @@
 	"noDatapointsDefined": "No data points defined yet.",
 	"selectGroup": "Select group...",
 	"selectObject": "Select Object",
-	"browseObjects": "Browse objects"
+	"browseObjects": "Browse objects",
+	"filterByGroup": "Filter by Group",
+	"allGroups": "All Groups"
 }
