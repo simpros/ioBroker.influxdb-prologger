@@ -4,11 +4,7 @@ import {
 	Box,
 	Button,
 	CircularProgress,
-	FormControl,
 	Grid2 as Grid,
-	InputLabel,
-	MenuItem,
-	Select,
 	TextField,
 } from '@mui/material';
 import { useState } from 'react';
@@ -30,10 +26,7 @@ export default function ConnectionTab({ native, onChange, socket, instance }: Co
 		setTestResult(null);
 		try {
 			const result = await socket.sendTo(`influxdb-prologger.${instance}`, 'testConnection', {
-				protocol: native.protocol,
-				host: native.host,
-				port: native.port,
-				organization: native.organization,
+				url: native.url,
 				token: native.token,
 			});
 			if (result?.error) {
@@ -51,38 +44,15 @@ export default function ConnectionTab({ native, onChange, socket, instance }: Co
 	return (
 		<Box>
 			<Grid container spacing={2}>
-				<Grid size={{ xs: 12, sm: 3 }}>
-					<FormControl fullWidth>
-						<InputLabel>{I18n.t('protocol')}</InputLabel>
-						<Select
-							value={native.protocol || 'http'}
-							label={I18n.t('protocol')}
-							onChange={e => onChange('protocol', e.target.value)}
-						>
-							<MenuItem value="http">HTTP</MenuItem>
-							<MenuItem value="https">HTTPS</MenuItem>
-						</Select>
-					</FormControl>
-				</Grid>
-				<Grid size={{ xs: 12, sm: 6 }}>
+				<Grid size={{ xs: 12 }}>
 					<TextField
 						fullWidth
-						label={I18n.t('host')}
-						value={native.host || ''}
-						placeholder="192.168.1.100"
-						onChange={e => onChange('host', e.target.value)}
-						error={!native.host}
-						helperText={!native.host ? I18n.t('hostRequired') : undefined}
-					/>
-				</Grid>
-				<Grid size={{ xs: 12, sm: 3 }}>
-					<TextField
-						fullWidth
-						label={I18n.t('port')}
-						type="number"
-						value={native.port ?? 8086}
-						slotProps={{ htmlInput: { min: 1, max: 65535 } }}
-						onChange={e => onChange('port', Number(e.target.value))}
+						label={I18n.t('url')}
+						value={native.url || ''}
+						placeholder={I18n.t('urlPlaceholder')}
+						onChange={e => onChange('url', e.target.value)}
+						error={!native.url}
+						helperText={!native.url ? I18n.t('urlRequired') : I18n.t('urlHelperText')}
 					/>
 				</Grid>
 				<Grid size={{ xs: 12, sm: 6 }}>
@@ -106,7 +76,7 @@ export default function ConnectionTab({ native, onChange, socket, instance }: Co
 					<Button
 						variant="contained"
 						onClick={testConnection}
-						disabled={testing || !native.host}
+						disabled={testing || !native.url}
 						startIcon={testing ? <CircularProgress size={20} /> : undefined}
 					>
 						{I18n.t('testConnection')}

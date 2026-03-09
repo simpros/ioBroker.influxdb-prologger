@@ -88,9 +88,7 @@
 		]
 	},
 	"native": {
-		"protocol": "http",
-		"host": "",
-		"port": 8086,
+		"url": "http://localhost:8086",
 		"organization": "",
 		"token": "",
 		"groups": [],

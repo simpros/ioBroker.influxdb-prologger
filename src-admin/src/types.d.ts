@@ -24,9 +24,7 @@ export interface DatapointConfig {
 }
 
 export interface NativeConfig {
-	protocol: 'http' | 'https';
-	host: string;
-	port: number;
+	url: string;
 	organization: string;
 	token: string;
 	groups: LoggingGroup[];

@@ -7,12 +7,8 @@
 
 /** Connection settings required to talk to InfluxDB. */
 export interface InfluxConnectionConfig {
-	/** HTTP or HTTPS protocol. */
-	protocol: 'http' | 'https';
-	/** InfluxDB server hostname or IP address. */
-	host: string;
-	/** InfluxDB server port. */
-	port: number;
+	/** Full InfluxDB URL, e.g. "http://localhost:8086" or "https://influxdb.example.com". */
+	url: string;
 	/** InfluxDB organization name. */
 	organization: string;
 	/** InfluxDB API token for authentication. */
@@ -59,9 +55,9 @@ export class InfluxClient {
 		this.enableDebugLogs = enableDebugLogs;
 	}
 
-	/** Base URL for the InfluxDB instance. */
+	/** Base URL for the InfluxDB instance (trailing slash stripped). */
 	private get baseUrl(): string {
-		return `${this.config.protocol}://${this.config.host}:${this.config.port}`;
+		return this.config.url.replace(/\/+$/, '');
 	}
 
 	/**
@@ -149,7 +145,7 @@ export class InfluxClient {
 			});
 
 			if (response.ok) {
-				this.log.info(`Successfully connected to InfluxDB at ${this.config.host}:${this.config.port}`);
+				this.log.info(`Successfully connected to InfluxDB at ${this.baseUrl}`);
 				return true;
 			}
 
@@ -167,18 +163,12 @@ export class InfluxClient {
 	 * This is a static helper that doesn't need a full InfluxClient instance.
 	 *
 	 * @param config - Connection parameters from the admin message
-	 * @param config.protocol - HTTP or HTTPS protocol
-	 * @param config.host - InfluxDB server hostname
-	 * @param config.port - InfluxDB server port
+	 * @param config.url - Full InfluxDB URL
 	 * @param config.token - InfluxDB API token
 	 */
 	static async testWithConfig(config: {
-		/** HTTP or HTTPS protocol. */
-		protocol: string;
-		/** InfluxDB server hostname. */
-		host: string;
-		/** InfluxDB server port. */
-		port: number;
+		/** Full InfluxDB URL. */
+		url: string;
 		/** InfluxDB API token. */
 		token: string;
 	}): Promise<{
@@ -187,7 +177,8 @@ export class InfluxClient {
 		/** Result or error message. */
 		message: string;
 	}> {
-		const url = `${config.protocol}://${config.host}:${config.port}/health`;
+		const baseUrl = config.url.replace(/\/+$/, '');
+		const url = `${baseUrl}/health`;
 
 		try {
 			const response = await fetch(url, {

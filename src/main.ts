@@ -36,8 +36,8 @@ class InfluxdbPrologger extends utils.Adapter {
 		await this.setStateAsync('info.connection', false, true);
 
 		// Validate required configuration
-		if (!this.config.host) {
-			this.log.error('InfluxDB host is not configured. Please configure the adapter.');
+		if (!this.config.url) {
+			this.log.error('InfluxDB URL is not configured. Please configure the adapter.');
 			return;
 		}
 		if (!this.config.token) {
@@ -64,9 +64,7 @@ class InfluxdbPrologger extends utils.Adapter {
 		// Initialize InfluxDB client
 		this.influxClient = new InfluxClient(
 			{
-				protocol: this.config.protocol,
-				host: this.config.host,
-				port: this.config.port,
+				url: this.config.url,
 				organization: this.config.organization,
 				token: this.config.token,
 				writeTimeout: this.config.writeTimeout,
@@ -261,10 +259,7 @@ class InfluxdbPrologger extends utils.Adapter {
 
 		if (obj.command === 'testConnection') {
 			const msg = obj.message as {
-				protocol: string;
-				host: string;
-				port: number;
-				organization: string;
+				url: string;
 				token: string;
 			};
 

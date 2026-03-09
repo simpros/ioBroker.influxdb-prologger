@@ -4,9 +4,7 @@ import { InfluxClient, type InfluxConnectionConfig, type Logger } from './influx
 
 function makeConfig(overrides: Partial<InfluxConnectionConfig> = {}): InfluxConnectionConfig {
 	return {
-		protocol: 'http',
-		host: 'localhost',
-		port: 8086,
+		url: 'http://localhost:8086',
 		organization: 'myorg',
 		token: 'test-token',
 		writeTimeout: 5000,
@@ -242,10 +240,10 @@ describe('InfluxClient', () => {
 			expect(log.error.firstCall.args[0]).to.include('ECONNREFUSED');
 		});
 
-		it('should use HTTPS and custom port in URL', async () => {
+		it('should use full URL with HTTPS (reverse proxy)', async () => {
 			fetchStub.resolves(mockResponse(200));
 			const client = new InfluxClient(
-				makeConfig({ protocol: 'https', host: 'influx.example.com', port: 443 }),
+				makeConfig({ url: 'https://influx.example.com' }),
 				makeLogger(),
 				false,
 			);
@@ -253,7 +251,21 @@ describe('InfluxClient', () => {
 			await client.testConnection();
 
 			const [url] = fetchStub.firstCall.args;
-			expect(url).to.equal('https://influx.example.com:443/health');
+			expect(url).to.equal('https://influx.example.com/health');
+		});
+
+		it('should strip trailing slash from URL', async () => {
+			fetchStub.resolves(mockResponse(200));
+			const client = new InfluxClient(
+				makeConfig({ url: 'http://localhost:8086/' }),
+				makeLogger(),
+				false,
+			);
+
+			await client.testConnection();
+
+			const [url] = fetchStub.firstCall.args;
+			expect(url).to.equal('http://localhost:8086/health');
 		});
 	});
 
@@ -262,9 +274,7 @@ describe('InfluxClient', () => {
 			fetchStub.resolves(mockResponse(200));
 
 			const result = await InfluxClient.testWithConfig({
-				protocol: 'http',
-				host: 'localhost',
-				port: 8086,
+				url: 'http://localhost:8086',
 				token: 'tok',
 			});
 
@@ -276,9 +286,7 @@ describe('InfluxClient', () => {
 			fetchStub.resolves(mockResponse(401, 'unauthorized'));
 
 			const result = await InfluxClient.testWithConfig({
-				protocol: 'http',
-				host: 'localhost',
-				port: 8086,
+				url: 'http://localhost:8086',
 				token: 'bad-token',
 			});
 
@@ -291,9 +299,7 @@ describe('InfluxClient', () => {
 			fetchStub.rejects(new Error('ECONNREFUSED'));
 
 			const result = await InfluxClient.testWithConfig({
-				protocol: 'http',
-				host: 'localhost',
-				port: 8086,
+				url: 'http://localhost:8086',
 				token: 'tok',
 			});
 
