@@ -1,6 +1,6 @@
 import { GenericApp, I18n, type GenericAppProps, type GenericAppState } from '@iobroker/adapter-react-v5';
 import { Box, Tab, Tabs, ThemeProvider } from '@mui/material';
-import type { NativeConfig } from './types.d';
+import type { DatapointConfig, LoggingGroup, NativeConfig } from './types.d';
 import en from './i18n/en.json';
 import de from './i18n/de.json';
 import ConnectionTab from './tabs/ConnectionTab';
@@ -27,6 +27,33 @@ class App extends GenericApp<GenericAppProps, AppState> {
 	}
 
 	updateNativeValue(attr: string, value: unknown): void {
+		// When groups are updated, cascade any name changes to datapoints
+		// in a single setState to avoid stale-state overwrites
+		if (attr === 'groups') {
+			const oldGroups = ((this.state.native as Record<string, unknown>).groups || []) as LoggingGroup[];
+			const newGroups = value as LoggingGroup[];
+			const datapoints = ((this.state.native as Record<string, unknown>).datapoints || []) as DatapointConfig[];
+
+			let updatedDatapoints = datapoints;
+			for (let i = 0; i < Math.min(oldGroups.length, newGroups.length); i++) {
+				const oldName = oldGroups[i].name;
+				const newName = newGroups[i].name;
+				if (oldName && oldName !== newName) {
+					updatedDatapoints = updatedDatapoints.map(dp =>
+						dp.group === oldName ? { ...dp, group: newName } : dp,
+					);
+				}
+			}
+
+			if (updatedDatapoints !== datapoints) {
+				const native = JSON.parse(JSON.stringify(this.state.native));
+				native.groups = newGroups;
+				native.datapoints = updatedDatapoints;
+				this.setState({ native, changed: true } as Partial<AppState>);
+				return;
+			}
+		}
+
 		super.updateNativeValue(attr, value);
 	}
 
