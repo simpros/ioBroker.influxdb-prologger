@@ -71,6 +71,8 @@ class App extends GenericApp<GenericAppProps, AppState> {
 							<DatapointsTab
 								native={native}
 								onChange={(attr, value) => this.updateNativeValue(attr, value)}
+								socket={this.socket}
+								theme={this.state.theme}
 							/>
 						)}
 						{this.state.activeTab === 3 && (

@@ -1,4 +1,4 @@
-import { I18n } from '@iobroker/adapter-react-v5';
+import { DialogSelectID, I18n } from '@iobroker/adapter-react-v5';
 import {
 	Box,
 	Button,
@@ -18,11 +18,15 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
+import SearchIcon from '@mui/icons-material/Search';
+import { useState } from 'react';
 import type { DatapointConfig, NativeConfig } from '../types.d';
 
 interface DatapointsTabProps {
 	native: NativeConfig;
 	onChange: (attr: string, value: unknown) => void;
+	socket: any;
+	theme: any;
 }
 
 const DEFAULT_DATAPOINT: DatapointConfig = {
@@ -34,7 +38,9 @@ const DEFAULT_DATAPOINT: DatapointConfig = {
 	tags: '',
 };
 
-export default function DatapointsTab({ native, onChange }: DatapointsTabProps): React.JSX.Element {
+export default function DatapointsTab({ native, onChange, socket, theme }: DatapointsTabProps): React.JSX.Element {
+	const [selectIdIndex, setSelectIdIndex] = useState<number | null>(null);
+
 	const datapoints = native.datapoints || [];
 	const groups = native.groups || [];
 	const groupNames = groups.map(g => g.name).filter(Boolean);
@@ -115,14 +121,23 @@ export default function DatapointsTab({ native, onChange }: DatapointsTabProps):
 										</FormControl>
 									</TableCell>
 									<TableCell sx={{ minWidth: 200 }}>
-										<TextField
-											fullWidth
-											size="small"
-											variant="standard"
-											value={dp.objectId}
-											placeholder="0_userdata.0.example"
-											onChange={e => updateDatapoint(index, 'objectId', e.target.value)}
-										/>
+										<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+											<TextField
+												fullWidth
+												size="small"
+												variant="standard"
+												value={dp.objectId}
+												placeholder="0_userdata.0.example"
+												onChange={e => updateDatapoint(index, 'objectId', e.target.value)}
+											/>
+											<IconButton
+												size="small"
+												onClick={() => setSelectIdIndex(index)}
+												title={I18n.t('browseObjects')}
+											>
+												<SearchIcon fontSize="small" />
+											</IconButton>
+										</Box>
 									</TableCell>
 									<TableCell sx={{ minWidth: 140 }}>
 										<TextField
@@ -166,6 +181,26 @@ export default function DatapointsTab({ native, onChange }: DatapointsTabProps):
 						</TableBody>
 					</Table>
 				</TableContainer>
+			)}
+
+			{selectIdIndex !== null && (
+				<DialogSelectID
+					socket={socket}
+					theme={theme}
+					title={I18n.t('selectObject')}
+					types={['state']}
+					selected={datapoints[selectIdIndex]?.objectId || ''}
+					onClose={() => setSelectIdIndex(null)}
+					onOk={(selected) => {
+						if (selected && selectIdIndex !== null) {
+							const id = Array.isArray(selected) ? selected[0] : selected;
+							if (id) {
+								updateDatapoint(selectIdIndex, 'objectId', id);
+							}
+						}
+						setSelectIdIndex(null);
+					}}
+				/>
 			)}
 		</Box>
 	);

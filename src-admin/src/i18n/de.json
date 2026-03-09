@@ -41,5 +41,7 @@
 	"enableDebugLogs": "Debug-Logging aktivieren",
 	"noGroupsDefined": "Noch keine Logging-Gruppen definiert.",
 	"noDatapointsDefined": "Noch keine Datenpunkte definiert.",
-	"selectGroup": "Gruppe auswählen..."
+	"selectGroup": "Gruppe auswählen...",
+	"selectObject": "Objekt auswählen",
+	"browseObjects": "Objekte durchsuchen"
 }

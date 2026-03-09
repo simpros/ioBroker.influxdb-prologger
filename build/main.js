@@ -60,11 +60,11 @@ class InfluxdbPrologger extends utils.Adapter {
     const groups = this.config.groups || [];
     const datapoints = this.config.datapoints || [];
     if (groups.length === 0) {
-      this.log.warn("No logging groups configured. Nothing to do.");
+      this.log.info("No logging groups configured. Nothing to do.");
       return;
     }
     if (datapoints.length === 0) {
-      this.log.warn("No data points configured. Nothing to do.");
+      this.log.info("No data points configured. Nothing to do.");
       return;
     }
     this.influxClient = new import_influx_client.InfluxClient(
