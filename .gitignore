@@ -13,6 +13,11 @@ iobroker.*.tgz
 Thumbs.db
 .commitinfo
 
+# Build output
+build/
+admin/assets/
+admin/index_m.html
+
 # i18n intermediate files
 admin/i18n/flat.txt
 admin/i18n/*/flat.txt

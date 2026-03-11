@@ -10,7 +10,10 @@ interface AdvancedTabProps {
 export default function AdvancedTab({ native, onChange }: AdvancedTabProps): React.JSX.Element {
 	return (
 		<Box>
-			<Grid container spacing={2}>
+			<Grid
+				container
+				spacing={2}
+			>
 				<Grid size={{ xs: 12, sm: 4 }}>
 					<TextField
 						fullWidth
@@ -53,9 +56,7 @@ export default function AdvancedTab({ native, onChange }: AdvancedTabProps): Rea
 								onChange={e => onChange('enableDebugLogs', e.target.checked)}
 							/>
 						}
-						label={
-							<Typography>{I18n.t('enableDebugLogs')}</Typography>
-						}
+						label={<Typography>{I18n.t('enableDebugLogs')}</Typography>}
 					/>
 				</Grid>
 			</Grid>
