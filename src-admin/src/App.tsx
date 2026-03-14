@@ -59,10 +59,10 @@ class App extends GenericApp<GenericAppProps, AppState> {
 			}
 
 			if (updatedDatapoints !== datapoints) {
-				const native = JSON.parse(JSON.stringify(this.state.native));
+				const native: Record<string, any> = JSON.parse(JSON.stringify(this.state.native));
 				native.groups = newGroups;
 				native.datapoints = updatedDatapoints;
-				this.setState({ native, changed: true } as Partial<AppState>);
+				this.setState({ native, changed: true });
 				return;
 			}
 		}
