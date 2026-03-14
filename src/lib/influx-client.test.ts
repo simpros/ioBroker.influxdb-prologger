@@ -242,11 +242,7 @@ describe('InfluxClient', () => {
 
 		it('should use full URL with HTTPS (reverse proxy)', async () => {
 			fetchStub.resolves(mockResponse(200));
-			const client = new InfluxClient(
-				makeConfig({ url: 'https://influx.example.com' }),
-				makeLogger(),
-				false,
-			);
+			const client = new InfluxClient(makeConfig({ url: 'https://influx.example.com' }), makeLogger(), false);
 
 			await client.testConnection();
 
@@ -256,11 +252,7 @@ describe('InfluxClient', () => {
 
 		it('should strip trailing slash from URL', async () => {
 			fetchStub.resolves(mockResponse(200));
-			const client = new InfluxClient(
-				makeConfig({ url: 'http://localhost:8086/' }),
-				makeLogger(),
-				false,
-			);
+			const client = new InfluxClient(makeConfig({ url: 'http://localhost:8086/' }), makeLogger(), false);
 
 			await client.testConnection();
 
