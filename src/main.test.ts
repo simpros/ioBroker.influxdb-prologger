@@ -82,9 +82,7 @@ describe('adapter data flow', () => {
 
 		const client = new InfluxClient(
 			{
-				protocol: 'http',
-				host: 'localhost',
-				port: 8086,
+				url: 'http://localhost:8086',
 				organization: 'myorg',
 				token: 'secret',
 				writeTimeout: 5000,
@@ -160,9 +158,7 @@ describe('adapter data flow', () => {
 		const errLog = { debug: sinon.stub(), info: sinon.stub(), warn: sinon.stub(), error: sinon.stub() };
 		const client = new InfluxClient(
 			{
-				protocol: 'http',
-				host: 'localhost',
-				port: 8086,
+				url: 'http://localhost:8086',
 				organization: 'org',
 				token: 'tok',
 				writeTimeout: 5000,
