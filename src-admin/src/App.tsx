@@ -12,7 +12,13 @@ interface AppState extends GenericAppState {
 	activeTab: number;
 }
 
+/** Main adapter configuration app */
 class App extends GenericApp<GenericAppProps, AppState> {
+	/**
+	 * Creates a new App instance
+	 *
+	 * @param props - generic app props
+	 */
 	constructor(props: GenericAppProps) {
 		const extendedProps: GenericAppProps = { ...props };
 		extendedProps.translations = { en, de };
@@ -22,10 +28,17 @@ class App extends GenericApp<GenericAppProps, AppState> {
 		Object.assign(this.state, { activeTab: 0 });
 	}
 
+	/** Called when the connection to the backend is ready */
 	onConnectionReady(): void {
 		// nothing extra needed - GenericApp loads native config automatically
 	}
 
+	/**
+	 * Updates a native config value with group rename cascading
+	 *
+	 * @param attr - config attribute name
+	 * @param value - new value
+	 */
 	updateNativeValue(attr: string, value: unknown): void {
 		// When groups are updated, cascade any name changes to datapoints
 		// in a single setState to avoid stale-state overwrites
@@ -57,6 +70,7 @@ class App extends GenericApp<GenericAppProps, AppState> {
 		super.updateNativeValue(attr, value);
 	}
 
+	/** Renders the app UI */
 	render(): React.JSX.Element {
 		if (!this.state.loaded) {
 			return super.render();
@@ -66,7 +80,9 @@ class App extends GenericApp<GenericAppProps, AppState> {
 
 		return (
 			<ThemeProvider theme={this.state.theme}>
-				<Box sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+				<Box
+					sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
+				>
 					<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 						<Tabs
 							value={this.state.activeTab}

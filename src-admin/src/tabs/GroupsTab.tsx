@@ -35,6 +35,13 @@ const DEFAULT_GROUP: LoggingGroup = {
 	batchWrite: true,
 };
 
+/**
+ * Logging groups configuration tab component
+ *
+ * @param root0 - component props
+ * @param root0.native - native adapter config
+ * @param root0.onChange - config change handler
+ */
 export default function GroupsTab({ native, onChange }: GroupsTabProps): React.JSX.Element {
 	const groups = native.groups || [];
 
@@ -57,18 +64,29 @@ export default function GroupsTab({ native, onChange }: GroupsTabProps): React.J
 
 	return (
 		<Box>
-			<Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+			<Typography
+				variant="body2"
+				color="text.secondary"
+				sx={{ mb: 2 }}
+			>
 				{I18n.t('groupsInfo')}
 			</Typography>
 
 			{groups.length === 0 && (
-				<Typography variant="body2" color="text.secondary" sx={{ mb: 2, fontStyle: 'italic' }}>
+				<Typography
+					variant="body2"
+					color="text.secondary"
+					sx={{ mb: 2, fontStyle: 'italic' }}
+				>
 					{I18n.t('noGroupsDefined')}
 				</Typography>
 			)}
 
 			{groups.map((group, index) => (
-				<Accordion key={index} defaultExpanded={groups.length === 1}>
+				<Accordion
+					key={index}
+					defaultExpanded={groups.length === 1}
+				>
 					<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 						<Box sx={{ display: 'flex', alignItems: 'center', width: '100%', gap: 1 }}>
 							<Checkbox
@@ -77,10 +95,12 @@ export default function GroupsTab({ native, onChange }: GroupsTabProps): React.J
 								onChange={e => updateGroup(index, 'enabled', e.target.checked)}
 								size="small"
 							/>
-							<Typography sx={{ flex: 1 }}>
-								{group.name || <em>({I18n.t('groupName')})</em>}
-							</Typography>
-							<Typography variant="caption" color="text.secondary" sx={{ mr: 1 }}>
+							<Typography sx={{ flex: 1 }}>{group.name || <em>({I18n.t('groupName')})</em>}</Typography>
+							<Typography
+								variant="caption"
+								color="text.secondary"
+								sx={{ mr: 1 }}
+							>
 								{group.bucket && `${group.bucket} | `}
 								{group.triggerType === 'cron' ? group.cronExpression : I18n.t('triggerOnChange')}
 							</Typography>
@@ -97,7 +117,10 @@ export default function GroupsTab({ native, onChange }: GroupsTabProps): React.J
 						</Box>
 					</AccordionSummary>
 					<AccordionDetails>
-						<Grid container spacing={2}>
+						<Grid
+							container
+							spacing={2}
+						>
 							<Grid size={{ xs: 12, sm: 6 }}>
 								<TextField
 									fullWidth
@@ -154,7 +177,12 @@ export default function GroupsTab({ native, onChange }: GroupsTabProps): React.J
 				</Accordion>
 			))}
 
-			<Button variant="outlined" startIcon={<AddIcon />} onClick={addGroup} sx={{ mt: 2 }}>
+			<Button
+				variant="outlined"
+				startIcon={<AddIcon />}
+				onClick={addGroup}
+				sx={{ mt: 2 }}
+			>
 				{I18n.t('addGroup')}
 			</Button>
 		</Box>

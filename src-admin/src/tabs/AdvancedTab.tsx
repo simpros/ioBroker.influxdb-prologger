@@ -7,6 +7,13 @@ interface AdvancedTabProps {
 	onChange: (attr: string, value: unknown) => void;
 }
 
+/**
+ * Advanced settings tab component
+ *
+ * @param root0 - component props
+ * @param root0.native - native adapter config
+ * @param root0.onChange - config change handler
+ */
 export default function AdvancedTab({ native, onChange }: AdvancedTabProps): React.JSX.Element {
 	return (
 		<Box>

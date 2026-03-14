@@ -1,12 +1,5 @@
 import { I18n } from '@iobroker/adapter-react-v5';
-import {
-	Alert,
-	Box,
-	Button,
-	CircularProgress,
-	Grid2 as Grid,
-	TextField,
-} from '@mui/material';
+import { Alert, Box, Button, CircularProgress, Grid2 as Grid, TextField } from '@mui/material';
 import { useState } from 'react';
 import type { NativeConfig } from '../types.d';
 
@@ -17,6 +10,15 @@ interface ConnectionTabProps {
 	instance: number;
 }
 
+/**
+ * Connection settings tab component
+ *
+ * @param root0 - component props
+ * @param root0.native - native adapter config
+ * @param root0.onChange - config change handler
+ * @param root0.socket - ioBroker socket connection
+ * @param root0.instance - adapter instance number
+ */
 export default function ConnectionTab({ native, onChange, socket, instance }: ConnectionTabProps): React.JSX.Element {
 	const [testing, setTesting] = useState(false);
 	const [testResult, setTestResult] = useState<{ success: boolean; message: string } | null>(null);
@@ -43,7 +45,10 @@ export default function ConnectionTab({ native, onChange, socket, instance }: Co
 
 	return (
 		<Box>
-			<Grid container spacing={2}>
+			<Grid
+				container
+				spacing={2}
+			>
 				<Grid size={{ xs: 12 }}>
 					<TextField
 						fullWidth
@@ -82,7 +87,10 @@ export default function ConnectionTab({ native, onChange, socket, instance }: Co
 						{I18n.t('testConnection')}
 					</Button>
 					{testResult && (
-						<Alert severity={testResult.success ? 'success' : 'error'} sx={{ mt: 1 }}>
+						<Alert
+							severity={testResult.success ? 'success' : 'error'}
+							sx={{ mt: 1 }}
+						>
 							{testResult.message}
 						</Alert>
 					)}
