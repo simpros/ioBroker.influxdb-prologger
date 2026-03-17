@@ -9,7 +9,7 @@
 import * as utils from '@iobroker/adapter-core';
 import { CronJob } from 'cron';
 import type { DatapointConfig, LoggingGroup } from './lib/adapter-config';
-import { resolveGroups, type ResolvedGroup } from './lib/group-resolver';
+import { buildGroupNameOptions, resolveGroups, type ResolvedGroup } from './lib/group-resolver';
 import { InfluxClient } from './lib/influx-client';
 import { formatLineProtocol } from './lib/line-protocol';
 
@@ -36,8 +36,8 @@ class InfluxdbPrologger extends utils.Adapter {
 		await this.setStateAsync('info.connection', false, true);
 
 		// Validate required configuration
-		if (!this.config.host) {
-			this.log.error('InfluxDB host is not configured. Please configure the adapter.');
+		if (!this.config.url) {
+			this.log.error('InfluxDB URL is not configured. Please configure the adapter.');
 			return;
 		}
 		if (!this.config.token) {
@@ -53,20 +53,18 @@ class InfluxdbPrologger extends utils.Adapter {
 		const datapoints = this.config.datapoints || [];
 
 		if (groups.length === 0) {
-			this.log.warn('No logging groups configured. Nothing to do.');
+			this.log.info('No logging groups configured. Nothing to do.');
 			return;
 		}
 		if (datapoints.length === 0) {
-			this.log.warn('No data points configured. Nothing to do.');
+			this.log.info('No data points configured. Nothing to do.');
 			return;
 		}
 
 		// Initialize InfluxDB client
 		this.influxClient = new InfluxClient(
 			{
-				protocol: this.config.protocol,
-				host: this.config.host,
-				port: this.config.port,
+				url: this.config.url,
 				organization: this.config.organization,
 				token: this.config.token,
 				writeTimeout: this.config.writeTimeout,
@@ -249,12 +247,19 @@ class InfluxdbPrologger extends utils.Adapter {
 			return;
 		}
 
+		if (obj.command === 'getGroupNames') {
+			const msg = obj.message as { groups?: LoggingGroup[] } | undefined;
+			const groups = msg?.groups ?? this.config.groups ?? [];
+			const names = buildGroupNameOptions(groups);
+			if (obj.callback) {
+				this.sendTo(obj.from, obj.command, names, obj.callback);
+			}
+			return;
+		}
+
 		if (obj.command === 'testConnection') {
 			const msg = obj.message as {
-				protocol: string;
-				host: string;
-				port: number;
-				organization: string;
+				url: string;
 				token: string;
 			};
 

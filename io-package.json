@@ -73,8 +73,9 @@
 		"dataSource": "push",
 		"messagebox": true,
 		"adminUI": {
-			"config": "json"
+			"config": "materialize"
 		},
+		"eraseOnUpload": true,
 		"dependencies": [
 			{
 				"js-controller": ">=6.0.11"
@@ -87,9 +88,7 @@
 		]
 	},
 	"native": {
-		"protocol": "http",
-		"host": "",
-		"port": 8086,
+		"url": "http://localhost:8086",
 		"organization": "",
 		"token": "",
 		"groups": [],

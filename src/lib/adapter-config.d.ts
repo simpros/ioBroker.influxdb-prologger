@@ -22,9 +22,7 @@ export interface DatapointConfig {
 declare global {
 	namespace ioBroker {
 		interface AdapterConfig {
-			protocol: 'http' | 'https';
-			host: string;
-			port: number;
+			url: string;
 			organization: string;
 			token: string;
 			groups: LoggingGroup[];

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import type { DatapointConfig, LoggingGroup } from './adapter-config';
-import { resolveGroups } from './group-resolver';
+import { buildGroupNameOptions, resolveGroups } from './group-resolver';
 
 function makeGroup(overrides: Partial<LoggingGroup> = {}): LoggingGroup {
 	return {
@@ -123,5 +123,52 @@ describe('group-resolver', () => {
 		expect(result[0].group.bucket).to.equal('my-bucket');
 		expect(result[0].group.triggerType).to.equal('onChange');
 		expect(result[0].group.enabled).to.equal(false);
+	});
+});
+
+describe('buildGroupNameOptions', () => {
+	it('should return value/label pairs from group names', () => {
+		const groups = [makeGroup({ name: 'sensors' }), makeGroup({ name: 'actors' })];
+
+		const result = buildGroupNameOptions(groups);
+
+		expect(result).to.deep.equal([
+			{ value: 'sensors', label: 'sensors' },
+			{ value: 'actors', label: 'actors' },
+		]);
+	});
+
+	it('should return an empty array for no groups', () => {
+		const result = buildGroupNameOptions([]);
+
+		expect(result).to.deep.equal([]);
+	});
+
+	it('should include disabled groups', () => {
+		const groups = [makeGroup({ name: 'active', enabled: true }), makeGroup({ name: 'paused', enabled: false })];
+
+		const result = buildGroupNameOptions(groups);
+
+		expect(result).to.have.length(2);
+		expect(result[1]).to.deep.equal({ value: 'paused', label: 'paused' });
+	});
+
+	it('should handle group names with special characters', () => {
+		const groups = [makeGroup({ name: '15-minuter' }), makeGroup({ name: 'Wohnzimmer Sensoren' })];
+
+		const result = buildGroupNameOptions(groups);
+
+		expect(result).to.deep.equal([
+			{ value: '15-minuter', label: '15-minuter' },
+			{ value: 'Wohnzimmer Sensoren', label: 'Wohnzimmer Sensoren' },
+		]);
+	});
+
+	it('should preserve group order', () => {
+		const groups = [makeGroup({ name: 'Z' }), makeGroup({ name: 'A' }), makeGroup({ name: 'M' })];
+
+		const result = buildGroupNameOptions(groups);
+
+		expect(result.map(o => o.value)).to.deep.equal(['Z', 'A', 'M']);
 	});
 });

@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"allowJs": true,
+		"resolveJsonModule": true,
+		"strictNullChecks": true,
+		"target": "ES2022",
+		"baseUrl": "./",
+		"allowSyntheticDefaultImports": true,
+		"noEmit": true,
+		"sourceMap": true,
+		"noImplicitAny": true,
+		"skipLibCheck": true,
+		"lib": ["ES2022", "DOM", "DOM.Iterable"],
+		"jsx": "react-jsx",
+		"types": ["@iobroker/types"]
+	},
+	"include": ["./src/**/*.ts", "./src/**/*.d.ts", "./src/**/*.tsx"]
+}
