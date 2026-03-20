@@ -62,8 +62,8 @@
 		"platform": "Javascript/Node.js",
 		"icon": "influxdb-prologger.png",
 		"enabled": true,
-		"extIcon": "https://raw.githubusercontent.com/simon-prosen/ioBroker.influxdb-prologger/main/admin/influxdb-prologger.png",
-		"readme": "https://github.com/simon-prosen/ioBroker.influxdb-prologger/blob/main/README.md",
+		"extIcon": "https://raw.githubusercontent.com/simpros/ioBroker.influxdb-prologger/main/admin/influxdb-prologger.png",
+		"readme": "https://github.com/simpros/ioBroker.influxdb-prologger/blob/main/README.md",
 		"loglevel": "info",
 		"tier": 3,
 		"mode": "daemon",
@@ -83,7 +83,7 @@
 		],
 		"globalDependencies": [
 			{
-				"admin": ">=7.0.23"
+				"admin": ">=7.6.20"
 			}
 		]
 	},
