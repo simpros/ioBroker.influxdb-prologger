@@ -8,7 +8,7 @@
 
 [![NPM](https://nodei.co/npm/iobroker.influxdb-prologger.png?downloads=true)](https://nodei.co/npm/iobroker.influxdb-prologger/)
 
-**Tests:** ![Test and Release](https://github.com/simon-prosen/ioBroker.influxdb-prologger/workflows/Test%20and%20Release/badge.svg)
+**Tests:** ![Test and Release](https://github.com/simpros/ioBroker.influxdb-prologger/workflows/Test%20and%20Release/badge.svg)
 
 ## InfluxDB ProLogger adapter for ioBroker
 
@@ -32,14 +32,6 @@ Flexible InfluxDB v2 data logger with configurable logging groups, multiple buck
 - ioBroker Admin >= 7.0.23
 - Node.js >= 20
 - InfluxDB v2 instance
-
-## Installation
-
-Install via the ioBroker admin interface or via npm:
-
-```bash
-npm install iobroker.influxdb-prologger
-```
 
 ## Configuration
 
@@ -167,7 +159,7 @@ If you are currently using ioBroker JavaScript scripts for InfluxDB logging, you
 	### **WORK IN PROGRESS**
 -->
 
-### **WORK IN PROGRESS**
+### 0.0.1 (2026-03-20)
 * (Simon Prosen) initial release
 
 ## License

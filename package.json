@@ -11,9 +11,10 @@
       "name": "Simon Prosen"
     }
   ],
-  "homepage": "https://github.com/simon-prosen/ioBroker.influxdb-prologger",
+  "homepage": "https://github.com/simpros/ioBroker.influxdb-prologger",
   "license": "MIT",
   "keywords": [
+    "ioBroker",
     "influxdb",
     "logging",
     "data-logger",
@@ -24,7 +25,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/simon-prosen/ioBroker.influxdb-prologger.git"
+    "url": "https://github.com/simpros/ioBroker.influxdb-prologger.git"
   },
   "engines": {
     "node": ">= 20"
@@ -81,7 +82,7 @@
     "prepare": "npm run build && npm run build:gui"
   },
   "bugs": {
-    "url": "https://github.com/simon-prosen/ioBroker.influxdb-prologger/issues"
+    "url": "https://github.com/simpros/ioBroker.influxdb-prologger/issues"
   },
   "readmeFilename": "README.md"
 }
