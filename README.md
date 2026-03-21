@@ -158,6 +158,25 @@ If you are currently using ioBroker JavaScript scripts for InfluxDB logging, you
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### 1.0.0 (2026-03-21)
+* (Simon Prosen) InfluxDB v2.x support via native HTTP API with token-based authentication
+* (Simon Prosen) Dual-mode logging: cron-based periodic collection and on-change real-time writes
+* (Simon Prosen) Multiple logging groups with independent bucket, trigger type, and cron schedule
+* (Simon Prosen) Configurable data points with custom measurement names, field keys, and InfluxDB tags
+* (Simon Prosen) InfluxDB line protocol formatting with proper type handling for strings, booleans, and numbers
+* (Simon Prosen) Batch writing for cron groups combining all data points into a single HTTP request
+* (Simon Prosen) Exponential backoff retry logic with smart classification (4xx no-retry, 429/5xx retry)
+* (Simon Prosen) Configurable write timeout and retry attempts
+* (Simon Prosen) Encrypted API token storage using ioBroker's native encryption
+* (Simon Prosen) Connection health check on startup with `info.connection` state indicator
+* (Simon Prosen) Admin UI with Connection, Logging Groups, Data Points, and Advanced tabs
+* (Simon Prosen) Object browser for visual ioBroker state selection in admin UI
+* (Simon Prosen) Connection test button for validating InfluxDB connectivity from admin UI
+* (Simon Prosen) Cascading group rename updates across all referencing data points
+* (Simon Prosen) Startup validation with warnings for missing or misconfigured groups and data points
+* (Simon Prosen) Graceful shutdown with cron job cleanup and subscription removal
+* (Simon Prosen) Debug logging mode for troubleshooting
+* (Simon Prosen) English and German translations
 
 ### 0.0.1 (2026-03-20)
 * (Simon Prosen) initial release
