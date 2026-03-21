@@ -13,8 +13,8 @@ iobroker.*.tgz
 Thumbs.db
 .commitinfo
 
-# Build output
-build/
+# Build output is committed for ioBroker repo checker compatibility (E5019)
+# Rebuild with: npm run build
 admin/assets/
 admin/index_m.html
 

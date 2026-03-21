@@ -2,12 +2,9 @@ version: 2
 updates:
   - package-ecosystem: npm
     directories:
-      - "/"
-      - "/src-admin"
+      - "**/*"
     schedule:
       interval: monthly
-      time: "00:05"
-      timezone: Europe/Berlin
     open-pull-requests-limit: 20
     assignees:
       - simpros
@@ -17,8 +14,6 @@ updates:
     directory: "/"
     schedule:
       interval: monthly
-      time: "00:05"
-      timezone: Europe/Berlin
     open-pull-requests-limit: 20
     assignees:
       - simpros
