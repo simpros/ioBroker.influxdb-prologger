@@ -15,19 +15,6 @@
 				"pl": "InfluxDB v2.x wsparcie poprzez natywny HTTP API z uwierzytelnianiem na bazie token-\nLogowanie w trybie dual- mode: coron- based periodyc collection and on- change real-time writs\nWiele grup logowania z niezależnym wiadro, typ wyzwalacza i harmonogram cron\nKonfigurowalne punkty danych z niestandardowymi nazwami pomiarów, klawiszami pola i znacznikami InfluxDB\nProtocol linii InfluxDB formatowanie z prawidłową obsługą typu dla strun, boolendów i liczb\nPisanie partii dla grup cron łączących wszystkie punkty danych w jedno żądanie HTTP\nExponal backup retry logic with smart classification (4xx no-retry, 429 / 5xx retry)\nKonfigurable zapis timeout i ponownych prób\nZaszyfrowany token pamięci masowej API przy użyciu natywnego szyfrowania iBrokera\nKontrola stanu połączenia przy starcie ze wskaźnikiem stanu 'info.connection'\nAdmin UI with Connection, Logging Group, Data Points, and Advanced tabs\nPrzeglądarka obiektów dla wizualnego wyboru stanu jOBroker w UI administratora\nPrzycisk testu połączenia do walidacji połączenia InfluxDB z interfejsu administratora\nGrupa kaskadowa zmienia nazwę aktualizacji we wszystkich odsyłających punktach danych\nWalidacja startup z ostrzeżeniami dla brakujących lub źle skonfigurowanych grup i punktów danych\nPełne gracji zamknięcie z cron sprzątanie pracy i usuwanie subskrypcji\nTryb logowania debugowania dla rozwiązywania problemów\nTłumaczenia angielskie i niemieckie",
 				"uk": "InfluxDB v2.x підтримка через рідний HTTP API з токеном\nДвостороння логістика: періодична збірка на основі кронів та навігація в режимі реального часу\nБагатоканальні групи з незалежним відро, тригерним типом та графіком\nНалаштування точок даних з іменами користувацького вимірювання, ключами поля та тегами InfluxDB\nФорматування протоколу nluxDB з правильним типом для рядків, болеанів та чисел\nПакетне написання для cron груп, що поєднують всі точки даних в один запит HTTP\nЕксплуатована логіка зворотного зв'язку з розумною класифікацією (4xx No-retry, 429/5xx)\nНалаштування часу запису та повторення\nЗашифровано сховище API токени за допомогою рідного шифрування ioBroker\nПеревірка стану підключення до системи `info.connection`\nАдміністратор UI з підключенням, групами, точками даних та розширеними вкладками\nОб'єктний браузер для вибору стану візуального ioBroker в адмін UI\nКнопка перевірки підключення для перевірки підключення InfluxDB від адміністратора UI\nОновлення перейменування груп Cascading у всіх пунктах обробки даних\nВправа стартапу з попередженнями про відсутність або неправильного налаштування груп та точок даних\nГрайливий відключення з чітким очищенням та видаленням передплати\nРежим реєстрації Debug для усунення несправностей\nАнглійська і німецька переклади",
 				"zh-cn": "InfluxDB v2.x 通过本地的 HTTP API 支持,并基于符号认证\n双模式记录:基于 crunon 的定期收藏和实时更改\n多个有独立桶、触发类型和克龙时间表的伐木组\n带有自定义测量名称、字段密钥和InfluxDB标签的可配置数据点\n用于字符串、布林和数字的适当类型处理的 ifluxDB 行协议格式\n将所有数据点合并成单一的 HTTP 请求的 cron 组批量写入\n具有智能分类(4xx no-retrich,429/5xx retrich)的指向反转逻辑\n可配置的写入超时和重试尝试\n使用 ioBroker 本地加密加密 API 令牌存储\n启动时将健康检查连接到“ info. connection”状态指标\n管理连接、 日志组、 数据点和高级标签的 UI\n管理员 UI 中可视化 ioBroker 状态选择对象浏览器\n连接测试按钮, 用于验证来自 admin UI 的 InfluxDB 连接\n所有引用数据点的分层组重命名更新\n对丢失或配置错误的组和数据点发出警告的启动验证\n以 cron 工作清理和订阅删除方式紧急关闭\n排除故障的调试记录模式\n英文和德文翻译"
-			},
-			"0.0.1": {
-				"en": "initial release",
-				"de": "Erstveröffentlichung",
-				"ru": "Начальная версия",
-				"pt": "lançamento inicial",
-				"nl": "Eerste uitgave",
-				"fr": "Première version",
-				"it": "Versione iniziale",
-				"es": "Versión inicial",
-				"pl": "Pierwsze wydanie",
-				"uk": "Початкова версія",
-				"zh-cn": "首次出版"
 			}
 		},
 		"titleLang": {
