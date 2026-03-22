@@ -86,8 +86,7 @@
     "lint": "eslint -c eslint.config.mjs .",
     "translate": "translate-adapter",
     "release": "release-script",
-    "dev-server": "dev-server",
-    "prepare": "npm run build && npm run build:gui"
+    "dev-server": "dev-server"
   },
   "bugs": {
     "url": "https://github.com/simpros/ioBroker.influxdb-prologger/issues"

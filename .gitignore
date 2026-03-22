@@ -15,8 +15,6 @@ Thumbs.db
 
 # Build output is committed for ioBroker repo checker compatibility (E5019)
 # Rebuild with: npm run build
-admin/assets/
-admin/index_m.html
 
 # i18n intermediate files
 admin/i18n/flat.txt
