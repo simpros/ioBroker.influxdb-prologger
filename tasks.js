@@ -1,5 +1,7 @@
 const { copyFileSync, existsSync, mkdirSync } = require('node:fs');
-const { deleteFoldersRecursive, npmInstall, buildReact, copyFiles, patchHtmlFile } = require('@iobroker/build-tools');
+const { join, dirname } = require('node:path');
+const { execFileSync } = require('node:child_process');
+const { deleteFoldersRecursive, copyFiles, patchHtmlFile } = require('@iobroker/build-tools');
 
 const srcAdmin = `${__dirname}/src-admin`;
 const admin = `${__dirname}/admin`;
@@ -7,6 +9,16 @@ const admin = `${__dirname}/admin`;
 function cleanAdmin() {
 	// keep the adapter icon
 	deleteFoldersRecursive(admin, ['influxdb-prologger.png']);
+}
+
+function buildVite() {
+	const viteBin = join(dirname(require.resolve('vite/package.json')), 'bin', 'vite.js');
+	console.log(`[${new Date().toISOString()}] Building admin UI with Vite...`);
+	execFileSync(process.execPath, [viteBin, 'build'], {
+		cwd: srcAdmin,
+		stdio: 'inherit',
+	});
+	console.log(`[${new Date().toISOString()}] Admin UI build complete.`);
 }
 
 async function copyAllFiles() {
@@ -25,12 +37,8 @@ async function main() {
 		cleanAdmin();
 		return;
 	}
-	if (args.includes('--1-npm')) {
-		await npmInstall(srcAdmin);
-		return;
-	}
 	if (args.includes('--3-build')) {
-		await buildReact(srcAdmin, { rootDir: srcAdmin, vite: true });
+		buildVite();
 		return;
 	}
 	if (args.includes('--4-copy')) {
@@ -41,8 +49,7 @@ async function main() {
 	// Default: full build
 	cleanAdmin();
 	deleteFoldersRecursive(`${srcAdmin}/build`);
-	await npmInstall(srcAdmin);
-	await buildReact(srcAdmin, { rootDir: srcAdmin, vite: true });
+	buildVite();
 	await copyAllFiles();
 }
 

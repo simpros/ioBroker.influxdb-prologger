@@ -24,4 +24,3 @@ admin/i18n/*/flat.txt
 
 # src-admin build intermediate
 src-admin/build
-src-admin/node_modules
