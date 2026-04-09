@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="320" viewBox="0 0 320 320">
+  <defs>
+    <style>
+      .outline { stroke: #263238; stroke-width: 10; stroke-linejoin: round; stroke-linecap: round; }
+      .outline-thin { stroke: #263238; stroke-width: 6; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+  <!-- Background shadow for Clipboard -->
+  <path d="M 45 45 L 215 45 L 215 285 L 45 285 Z" fill="#E0E0E0" transform="translate(10, 10)"/>
+
+  <!-- Clipboard Board -->
+  <path d="M 40 40 L 210 40 L 210 280 L 40 280 Z" fill="#F4A261" class="outline"/>
+  <path d="M 50 50 L 200 50 L 200 270 L 50 270 Z" fill="none" stroke="#E76F51" stroke-width="4" stroke-linejoin="round"/>
+  
+  <!-- Paper -->
+  <path d="M 60 70 L 190 70 L 190 260 L 60 260 Z" fill="#FFFFFF" class="outline"/>
+  
+  <!-- Paper Grid Points -->
+  <g fill="#A0AAB2">
+    <circle cx="80" cy="110" r="3"/> <circle cx="110" cy="110" r="3"/> <circle cx="140" cy="110" r="3"/>
+    <circle cx="80" cy="140" r="3"/> <circle cx="110" cy="140" r="3"/> <circle cx="140" cy="140" r="3"/>
+    <circle cx="80" cy="170" r="3"/> <circle cx="110" cy="170" r="3"/> <circle cx="140" cy="170" r="3"/>
+    <circle cx="80" cy="200" r="3"/> <circle cx="110" cy="200" r="3"/> <circle cx="140" cy="200" r="3"/>
+  </g>
+
+  <!-- Chart Line -->
+  <path d="M 75 220 L 105 160 L 135 180 L 165 140" fill="none" stroke="#E9C46A" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 75 220 L 105 160 L 135 180 L 165 140" fill="none" stroke="#263238" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Chart Nodes -->
+  <circle cx="75" cy="220" r="8" fill="#E76F51" class="outline-thin"/>
+  <circle cx="105" cy="160" r="8" fill="#E76F51" class="outline-thin"/>
+
+  <!-- Clip on Top -->
+  <path d="M 90 20 L 160 20 L 160 80 L 90 80 Z" fill="#A8DADC" class="outline"/>
+  <path d="M 100 30 L 150 30 L 150 70 L 100 70 Z" fill="none" stroke="#F1FAEE" stroke-width="4"/>
+  <circle cx="125" cy="50" r="6" fill="#263238"/>
+
+  <!-- Background shadow for Database -->
+  <path d="M 130 110 A 70 25 0 0 0 270 110 L 270 190 A 70 25 0 0 1 130 190 Z" fill="#B0B0B0" transform="translate(10, 10)"/>
+
+  <!-- Database Cylinder (InfluxDB style) -->
+  <path d="M 130 110 A 70 25 0 0 0 270 110 L 270 200 A 70 25 0 0 1 130 200 Z" fill="#2A9D8F" class="outline"/>
+  <ellipse cx="200" cy="110" rx="70" ry="25" fill="#45B0A4" class="outline"/>
+  
+  <!-- Database Details -->
+  <path d="M 130 155 A 70 25 0 0 0 270 155" fill="none" class="outline"/>
+  <ellipse cx="200" cy="110" rx="55" ry="15" fill="none" stroke="#87D0C8" stroke-width="4"/>
+
+  <!-- Clock/Timer Badge (Cron ProLogger) -->
+  <circle cx="250" cy="240" r="45" fill="#E9C46A" class="outline"/>
+  <circle cx="250" cy="240" r="32" fill="#FFFFFF" class="outline-thin"/>
+  
+  <!-- Clock hands -->
+  <path d="M 250 215 L 250 240 L 265 240" fill="none" class="outline-thin"/>
+  <circle cx="250" cy="240" r="6" fill="#263238"/>
+
+  <!-- Clipart Sparkles -->
+  <path d="M 280 60 Q 290 60 290 50 Q 290 60 300 60 Q 290 60 290 70 Q 290 60 280 60 Z" fill="#263238" stroke="#263238" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M 30 180 Q 40 180 40 170 Q 40 180 50 180 Q 40 180 40 190 Q 40 180 30 180 Z" fill="#263238" stroke="#263238" stroke-width="4" stroke-linejoin="round"/>
+
+</svg>
