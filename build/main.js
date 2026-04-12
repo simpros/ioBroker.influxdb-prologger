@@ -26,6 +26,7 @@ var import_cron = require("cron");
 var import_group_resolver = require("./lib/group-resolver");
 var import_influx_client = require("./lib/influx-client");
 var import_line_protocol = require("./lib/line-protocol");
+var import_state_change = require("./lib/state-change");
 class InfluxdbPrologger extends utils.Adapter {
   cronJobs = [];
   onChangeMap = /* @__PURE__ */ new Map();
@@ -193,6 +194,9 @@ class InfluxdbPrologger extends utils.Adapter {
     }
     const entries = this.onChangeMap.get(id);
     if (!entries) {
+      return;
+    }
+    if (!(0, import_state_change.shouldProcessOnChangeState)(this.namespace, id, state.ack)) {
       return;
     }
     for (const { group, datapoint } of entries) {

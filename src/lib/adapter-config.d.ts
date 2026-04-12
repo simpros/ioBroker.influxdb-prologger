@@ -6,7 +6,6 @@ export interface LoggingGroup {
 	bucket: string;
 	triggerType: 'cron' | 'onChange';
 	cronExpression: string;
-	batchWrite: boolean;
 }
 
 export interface DatapointConfig {

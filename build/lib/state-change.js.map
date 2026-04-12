@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/lib/state-change.ts"],
+  "sourcesContent": ["export function shouldProcessOnChangeState(\n\tadapterNamespace: string,\n\tstateId: string,\n\tack: ioBroker.State['ack'] | undefined,\n): boolean {\n\tconst isOwnState = stateId === adapterNamespace || stateId.startsWith(`${adapterNamespace}.`);\n\n\treturn isOwnState ? ack === false : ack === true;\n}\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAO,SAAS,2BACf,kBACA,SACA,KACU;AACV,QAAM,aAAa,YAAY,oBAAoB,QAAQ,WAAW,GAAG,gBAAgB,GAAG;AAE5F,SAAO,aAAa,QAAQ,QAAQ,QAAQ;AAC7C;",
+  "names": []
+}

@@ -17,8 +17,6 @@ export interface LoggingGroup {
 	triggerType: 'cron' | 'onChange';
 	/** Cron schedule expression */
 	cronExpression: string;
-	/** Whether to batch writes */
-	batchWrite: boolean;
 }
 
 /** Configuration for a single datapoint */

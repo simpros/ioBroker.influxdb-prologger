@@ -12,6 +12,7 @@ import type { DatapointConfig, LoggingGroup } from './lib/adapter-config';
 import { buildGroupNameOptions, resolveGroups, type ResolvedGroup } from './lib/group-resolver';
 import { InfluxClient } from './lib/influx-client';
 import { formatLineProtocol } from './lib/line-protocol';
+import { shouldProcessOnChangeState } from './lib/state-change';
 
 class InfluxdbPrologger extends utils.Adapter {
 	private cronJobs: CronJob[] = [];
@@ -148,7 +149,7 @@ class InfluxdbPrologger extends utils.Adapter {
 			this.log.debug(`Cron tick for group "${group.name}" - reading ${datapoints.length} data points`);
 		}
 
-		// Batch-read all state values
+		// Always batch-read all state values first to keep one consistent snapshot per cron tick.
 		const lines: string[] = [];
 		for (const dp of datapoints) {
 			try {
@@ -216,6 +217,10 @@ class InfluxdbPrologger extends utils.Adapter {
 
 		const entries = this.onChangeMap.get(id);
 		if (!entries) {
+			return;
+		}
+
+		if (!shouldProcessOnChangeState(this.namespace, id, state.ack)) {
 			return;
 		}
 
