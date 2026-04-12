@@ -87,7 +87,7 @@ export default function DatapointsTab({ native, onChange, socket, theme }: Datap
 				{I18n.t('datapointsInfo')}
 			</Typography>
 
-			<Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+			<Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2, flexWrap: 'wrap' }}>
 				<Button
 					variant="outlined"
 					startIcon={<AddIcon />}
@@ -98,7 +98,7 @@ export default function DatapointsTab({ native, onChange, socket, theme }: Datap
 				{groupNames.length > 0 && (
 					<FormControl
 						size="small"
-						sx={{ minWidth: 200 }}
+						sx={{ minWidth: { xs: '100%', sm: 200 }, flexGrow: { xs: 1, sm: 0 } }}
 					>
 						<InputLabel>{I18n.t('filterByGroup')}</InputLabel>
 						<Select
@@ -129,7 +129,7 @@ export default function DatapointsTab({ native, onChange, socket, theme }: Datap
 					{I18n.t('noDatapointsDefined')}
 				</Typography>
 			) : (
-				<TableContainer>
+				<TableContainer sx={{ width: '100%', overflowX: 'auto' }}>
 					<Table size="small">
 						<TableHead>
 							<TableRow>

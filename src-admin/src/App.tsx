@@ -81,21 +81,56 @@ class App extends GenericApp<GenericAppProps, AppState> {
 		return (
 			<ThemeProvider theme={this.state.theme}>
 				<Box
-					sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
+					sx={{
+						width: '100%',
+						height: '100%',
+						display: 'flex',
+						flexDirection: 'column',
+						overflow: 'hidden',
+						minWidth: 0,
+						minHeight: 0,
+					}}
 				>
-					<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+					<Box sx={{ borderBottom: 1, borderColor: 'divider', minWidth: 0 }}>
 						<Tabs
 							value={this.state.activeTab}
 							onChange={(_e, v) => this.setState({ activeTab: v })}
-							variant="standard"
+							variant="scrollable"
+							scrollButtons="auto"
+							allowScrollButtonsMobile
+							sx={{ minHeight: { xs: 48, sm: 56 } }}
 						>
-							<Tab label={I18n.t('connectionTab')} />
-							<Tab label={I18n.t('loggingGroupsTab')} />
-							<Tab label={I18n.t('datapointsTab')} />
-							<Tab label={I18n.t('advancedTab')} />
+							<Tab
+								label={I18n.t('connectionTab')}
+								wrapped
+								sx={{ minWidth: { xs: 'auto', sm: 160 }, px: { xs: 1.5, sm: 2 } }}
+							/>
+							<Tab
+								label={I18n.t('loggingGroupsTab')}
+								wrapped
+								sx={{ minWidth: { xs: 'auto', sm: 160 }, px: { xs: 1.5, sm: 2 } }}
+							/>
+							<Tab
+								label={I18n.t('datapointsTab')}
+								wrapped
+								sx={{ minWidth: { xs: 'auto', sm: 160 }, px: { xs: 1.5, sm: 2 } }}
+							/>
+							<Tab
+								label={I18n.t('advancedTab')}
+								wrapped
+								sx={{ minWidth: { xs: 'auto', sm: 160 }, px: { xs: 1.5, sm: 2 } }}
+							/>
 						</Tabs>
 					</Box>
-					<Box sx={{ flex: 1, overflow: 'auto', p: 2 }}>
+					<Box
+						sx={{
+							flex: 1,
+							overflow: 'auto',
+							minWidth: 0,
+							minHeight: 0,
+							p: { xs: 1, sm: 2 },
+						}}
+					>
 						{this.state.activeTab === 0 && (
 							<ConnectionTab
 								native={native}
