@@ -43,8 +43,18 @@
 			"uk": "Гнучкий реєстратор даних InfluxDB v2 із настроюваними групами журналювання, декількома сегментами, тригерами на основі cron і on-change",
 			"zh-cn": "灵活的 InfluxDB v2 数据记录器，具有可配置的日志记录组、多个存储桶、基于 cron 和变化的触发器"
 		},
-		"authors": ["Simon Prosen <simon@prosen.dev>"],
-		"keywords": ["influxdb", "logging", "data-logger", "iot", "smart-home", "monitoring", "time-series"],
+		"authors": [
+			"Simon Prosen <simon@prosen.dev>"
+		],
+		"keywords": [
+			"influxdb",
+			"logging",
+			"data-logger",
+			"iot",
+			"smart-home",
+			"monitoring",
+			"time-series"
+		],
 		"licenseInformation": {
 			"type": "free",
 			"license": "MIT"
@@ -88,8 +98,12 @@
 		"maxRetries": 3,
 		"enableDebugLogs": false
 	},
-	"encryptedNative": ["token"],
-	"protectedNative": ["token"],
+	"encryptedNative": [
+		"token"
+	],
+	"protectedNative": [
+		"token"
+	],
 	"objects": [],
 	"instanceObjects": [
 		{
