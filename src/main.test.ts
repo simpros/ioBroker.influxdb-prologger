@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import { formatInfluxValue, formatLineProtocol } from './lib/line-protocol';
 import { resolveGroups } from './lib/group-resolver';
 import { InfluxClient } from './lib/influx-client';
+import { shouldProcessOnChangeState } from './lib/state-change';
 import type { DatapointConfig, LoggingGroup } from './lib/adapter-config';
 
 /**
@@ -188,6 +189,25 @@ describe('adapter data flow', () => {
 
 		it('should handle very small negative numbers', () => {
 			expect(formatInfluxValue(-0.00001)).to.equal('-0.00001');
+		});
+	});
+
+	describe('shouldProcessOnChangeState', () => {
+		it('should process own states only when ack is false', () => {
+			expect(shouldProcessOnChangeState('influxdb-prologger.0', 'influxdb-prologger.0.command', false)).to.equal(
+				true,
+			);
+			expect(shouldProcessOnChangeState('influxdb-prologger.0', 'influxdb-prologger.0.command', true)).to.equal(
+				false,
+			);
+		});
+
+		it('should process foreign states only when ack is true', () => {
+			expect(shouldProcessOnChangeState('influxdb-prologger.0', 'hm-rpc.0.temperature', true)).to.equal(true);
+			expect(shouldProcessOnChangeState('influxdb-prologger.0', 'hm-rpc.0.temperature', false)).to.equal(false);
+			expect(shouldProcessOnChangeState('influxdb-prologger.0', 'hm-rpc.0.temperature', undefined)).to.equal(
+				false,
+			);
 		});
 	});
 });
