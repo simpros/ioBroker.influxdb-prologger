@@ -30,7 +30,6 @@ describe('adapter data flow', () => {
 				bucket: 'home',
 				triggerType: 'cron',
 				cronExpression: '*/15 * * * *',
-				batchWrite: true,
 			},
 		];
 		const datapoints: DatapointConfig[] = [
@@ -127,7 +126,6 @@ describe('adapter data flow', () => {
 				bucket: 'b',
 				triggerType: 'cron',
 				cronExpression: '',
-				batchWrite: false,
 			},
 		];
 		const datapoints: DatapointConfig[] = [

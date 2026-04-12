@@ -149,7 +149,7 @@ class InfluxdbPrologger extends utils.Adapter {
 			this.log.debug(`Cron tick for group "${group.name}" - reading ${datapoints.length} data points`);
 		}
 
-		// Batch-read all state values
+		// Always batch-read all state values first to keep one consistent snapshot per cron tick.
 		const lines: string[] = [];
 		for (const dp of datapoints) {
 			try {

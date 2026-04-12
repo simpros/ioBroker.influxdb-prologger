@@ -7,7 +7,6 @@ import {
 	Button,
 	Checkbox,
 	FormControl,
-	FormControlLabel,
 	Grid2 as Grid,
 	IconButton,
 	InputLabel,
@@ -32,7 +31,6 @@ const DEFAULT_GROUP: LoggingGroup = {
 	bucket: '',
 	triggerType: 'cron',
 	cronExpression: '*/15 * * * *',
-	batchWrite: true,
 };
 
 /**
@@ -172,17 +170,6 @@ export default function GroupsTab({ native, onChange }: GroupsTabProps): React.J
 									/>
 								</Grid>
 							)}
-							<Grid size={{ xs: 12, sm: 4 }}>
-								<FormControlLabel
-									control={
-										<Checkbox
-											checked={group.batchWrite}
-											onChange={e => updateGroup(index, 'batchWrite', e.target.checked)}
-										/>
-									}
-									label={I18n.t('batchWrite')}
-								/>
-							</Grid>
 						</Grid>
 					</AccordionDetails>
 				</Accordion>

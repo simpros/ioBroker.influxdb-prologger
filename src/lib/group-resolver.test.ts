@@ -10,7 +10,6 @@ function makeGroup(overrides: Partial<LoggingGroup> = {}): LoggingGroup {
 		bucket: 'test-bucket',
 		triggerType: 'cron',
 		cronExpression: '*/5 * * * *',
-		batchWrite: true,
 		...overrides,
 	};
 }
