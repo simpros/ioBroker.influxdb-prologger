@@ -119,26 +119,27 @@ class App extends GenericApp<GenericAppProps, AppState> {
 							variant="scrollable"
 							scrollButtons="auto"
 							allowScrollButtonsMobile
-							sx={{ minHeight: { xs: 48, sm: 56 } }}
+							sx={{
+								minHeight: { xs: 48, sm: 56 },
+								'& .MuiTab-root': {
+									minHeight: { xs: 48, sm: 56 },
+								},
+							}}
 						>
 							<Tab
 								label={I18n.t('connectionTab')}
-								wrapped
 								sx={{ minWidth: { xs: 'auto', sm: 160 }, px: { xs: 1.5, sm: 2 } }}
 							/>
 							<Tab
 								label={I18n.t('loggingGroupsTab')}
-								wrapped
 								sx={{ minWidth: { xs: 'auto', sm: 160 }, px: { xs: 1.5, sm: 2 } }}
 							/>
 							<Tab
 								label={I18n.t('datapointsTab')}
-								wrapped
 								sx={{ minWidth: { xs: 'auto', sm: 160 }, px: { xs: 1.5, sm: 2 } }}
 							/>
 							<Tab
 								label={I18n.t('advancedTab')}
-								wrapped
 								sx={{ minWidth: { xs: 'auto', sm: 160 }, px: { xs: 1.5, sm: 2 } }}
 							/>
 						</Tabs>
