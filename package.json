@@ -1,6 +1,6 @@
 {
 	"name": "iobroker.influxdb-prologger",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Flexible InfluxDB v2 data logger with configurable logging groups, multiple buckets, cron-based and on-change triggers",
 	"author": {
 		"name": "Simon Prosen",

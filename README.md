@@ -158,6 +158,13 @@ If you are currently using ioBroker JavaScript scripts for InfluxDB logging, you
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### 1.0.1 (2026-04-12)
+* (Simon Prosen) Fixed ack handling for on-change writes
+* (Simon Prosen) Improved admin UI responsiveness on small screens
+* (Simon Prosen) Removed the batch-write option from the admin UI and now enforce batching based on trigger type
+* (Simon Prosen) Added additional translations
+* (Simon Prosen) Moved admin UI packages to devDependencies
+
 ### 1.0.0 (2026-03-21)
 * (Simon Prosen) InfluxDB v2.x support via native HTTP API with token-based authentication
 * (Simon Prosen) Dual-mode logging: cron-based periodic collection and on-change real-time writes
@@ -177,9 +184,6 @@ If you are currently using ioBroker JavaScript scripts for InfluxDB logging, you
 * (Simon Prosen) Graceful shutdown with cron job cleanup and subscription removal
 * (Simon Prosen) Debug logging mode for troubleshooting
 * (Simon Prosen) English and German translations
-
-### 0.0.1 (2026-03-20)
-* (Simon Prosen) initial release
 
 ## License
 MIT License
