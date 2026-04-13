@@ -19,8 +19,8 @@
 		// This is necessary for the automatic typing of the adapter config
 		"resolveJsonModule": true,
 
-		// Include test globals here too so VS Code applies them to src/**/*.test.ts files.
-		"types": ["node", "mocha", "sinon"],
+		// Include test globals here too so VS Code and CI typecheck the test files consistently.
+		"types": ["node", "mocha", "chai", "sinon", "sinon-chai"],
 
 		// If you want to disable the stricter type checks (not recommended), uncomment the following line
 		// "strict": false,
