@@ -1,131 +1,144 @@
 {
-	"common": {
-		"name": "influxdb-prologger",
-		"version": "1.0.0",
-		"news": {
-			"1.0.0": {
-				"en": "InfluxDB v2.x support via native HTTP API with token-based authentication\nDual-mode logging: cron-based periodic collection and on-change real-time writes\nMultiple logging groups with an independent bucket, trigger type, and cron schedule\nConfigurable datapoints with custom measurement names, field keys, and InfluxDB tags\nInfluxDB line protocol formatting with proper type handling for strings, booleans, and numbers\nBatch writing for cron groups that combines all datapoints into a single HTTP request\nExponential backoff retry logic with smart classification (4xx no retry, 429/5xx retry)\nConfigurable write timeout and retry attempts\nEncrypted API token storage using ioBroker's native encryption\nConnection health check on startup with the `info.connection` state indicator\nAdmin UI with Connection, Logging Groups, Datapoints, and Advanced tabs\nObject browser for visual ioBroker state selection in the admin UI\nConnection test button for validating InfluxDB connectivity from the admin UI\nCascading group rename updates across all referencing datapoints\nStartup validation with warnings for missing or misconfigured groups and datapoints\nGraceful shutdown with cron cleanup and subscription removal\nDebug logging mode for troubleshooting\nEnglish and German translations",
-				"de": "InfluxDB v2.x-Unterstützung über die native HTTP-API mit tokenbasierter Authentifizierung\nLogging in zwei Modi: periodische Erfassung per Cron und Echtzeitschreiben bei Änderungen\nMehrere Logging-Gruppen mit eigenem Bucket, Triggertyp und Cron-Zeitplan\nKonfigurierbare Datenpunkte mit benutzerdefinierten Messungsnamen, Feldschlüsseln und InfluxDB-Tags\nFormatierung im InfluxDB-Line-Protocol mit korrekter Typbehandlung für Strings, Boolesche Werte und Zahlen\nBatch-Schreiben für Cron-Gruppen, das alle Datenpunkte in einer einzigen HTTP-Anfrage zusammenfasst\nExponential-Backoff-Retry-Logik mit intelligenter Klassifizierung (4xx kein Retry, 429/5xx Retry)\nKonfigurierbares Schreib-Timeout und konfigurierbare Anzahl von Wiederholungsversuchen\nVerschlüsselte Speicherung des API-Tokens mit der nativen Verschlüsselung von ioBroker\nVerbindungsprüfung beim Start mit dem Zustandsindikator `info.connection`\nAdmin-UI mit den Tabs Verbindung, Logging-Gruppen, Datenpunkte und Erweitert\nObjektbrowser zur visuellen Auswahl von ioBroker-Zuständen in der Admin-UI\nSchaltfläche zum Testen der Verbindung für die InfluxDB-Konnektivität aus der Admin-UI\nKaskadierende Aktualisierung von Gruppenumbenennungen in allen referenzierenden Datenpunkten\nValidierung beim Start mit Warnungen für fehlende oder falsch konfigurierte Gruppen und Datenpunkte\nSauberes Beenden mit Cron-Cleanup und Entfernen der Subscriptions\nDebug-Logging-Modus zur Fehlersuche\nEnglische und deutsche Übersetzungen",
-				"ru": "Поддержка InfluxDB v2.x через собственный HTTP API с аутентификацией на основе токенов\nДвухрежимная регистрация: периодическая коллекция на основе крон и записи в режиме реального времени\nНесколько групп регистрации с независимым ведром, типом триггера и графиком крон\nНастраиваемые точки данных с пользовательскими именами измерений, полевыми ключами и тегами InfluxDB\nФорматирование протокола линии InfluxDB с правильной обработкой типа для строк, булев и чисел\nНаписание пакетов для групп cron, объединяющих все точки данных в один HTTP-запрос\nЭкспоненциальная логика обратного повтора с умной классификацией (4xx no-retry, 429/5xx retry)\nНастраиваемый тайм-аут записи и повторные попытки\nЗашифрованное хранилище токенов API с использованием собственного шифрования ioBroker\nПроверка состояния подключения при запуске с индикатором состояния «info.connection»\nАдмин UI с подключением, группами регистрации, точками данных и расширенными вкладками\nОбъектный браузер для визуального выбора состояния ioBroker в пользовательском интерфейсе admin\nКнопка проверки подключения InfluxDB от admin UI\nКаскадная группа переименовывает обновления во всех точках ссылок\nПроверка запуска с предупреждениями о недостающих или неправильно настроенных группах и точках данных\nБлагодатное закрытие с очисткой работы и удалением подписки\nРежим регистрации отладки для устранения неполадок\nАнглийский и немецкий переводы",
-				"pt": "Suporte ao InfluxDB v2.x via API HTTP nativa com autenticação baseada em fichas\nRegistro em modo duplo: coleta periódica baseada em cron e gravações em tempo real\nVários grupos de registro com balde independente, tipo de gatilho e cronograma de cron\nPontos de dados configuráveis com nomes de medição personalizados, teclas de campo e etiquetas InfluxDB\nFormatação de protocolo de linha InfluxDB com manuseio de tipo adequado para strings, booleanos e números\nGravação em lote para grupos cron combinando todos os pontos de dados em uma única solicitação HTTP\nLógica de retrocesso exponencial com classificação inteligente (4xx no-retry, 429/5xx retry)\nTempo de gravação configurável e tentativas de repetição\nArmazenamento criptografado do token de API usando criptografia nativa do ioBroker\nVerificação de saúde de conexão na inicialização com indicador de estado 'info.connection'\nAdministrar UI com conexões, grupos de registro, pontos de dados e guias avançadas\nNavegador de objetos para seleção visual de estado ioBroker na interface de administração\nBotão de teste de conexão para validar conectividade InfluxDB do administrador UI\nGrupo Cascading renomeia atualizações em todos os pontos de referência de dados\nValidação inicial com avisos para grupos e pontos de dados faltantes ou mal configurados\nDesligamento gracioso com limpeza do trabalho cron e remoção da assinatura\nModo de registro de depuração para solução de problemas\nTraduções em inglês e alemão",
-				"nl": "InfluxDB v2.x ondersteuning via native HTTP API met token-gebaseerde authenticatie\nDual-mode logging: cron-gebaseerde periodieke verzameling en on-change real-time schrijft\nMeerdere loggroepen met onafhankelijke emmer, trigger type en cron schema\nConfigureerbare datapunten met aangepaste meetnamen, veldtoetsen en InfluxDB-tags\nInfluxDB lijn protocol formatteren met de juiste type behandeling voor strings, booleanen, en nummers\nBatch schrijven voor cron groepen die alle datapunten combineren tot één HTTP verzoek\nExponentiële backoff retry logica met slimme classificatie (4xx no-retry, 429/5xx retry)\nConfigureerbare schrijftijd-out en opnieuw proberen\nVersleutelde API token opslag met behulp van ioBroker native encryptie\nVerbinding gezondheidscontrole bij het opstarten met de indicator van de toestand van de verbinding met de informatie-info\nBeheerder UI met verbinding, logging groepen, datapunten, en geavanceerde tabbladen\nObject browser voor visuele ioBroker staat selectie in admin UI\nVerbindingstestknop voor het valideren van InfluxDB-connectiviteit van admin UI\nCascading groep hernoemen updates over alle referentiegegevenspunten\nOpstartvalidatie met waarschuwingen voor ontbrekende of verkeerd geconfigureerde groepen en datapunten\nGraceful shutdown met cron job opruimen en abonnement verwijderen\nLogmodus voor probleemoplossing debuggen\nEngelse en Duitse vertalingen",
-				"fr": "Prise en charge d'InfluxDB v2.x via l'API HTTP native avec authentification par jeton\nLogage en double mode: collecte périodique basée sur cron et sur le changement écrit en temps réel\nPlusieurs groupes d'enregistrement avec seau indépendant, type de déclencheur et calendrier de cron\nPoints de données configurables avec noms de mesure personnalisés, touches de champ et balises InfluxDB\nFormatage du protocole de ligne InfluxDB avec manipulation de type appropriée pour les chaînes, les booléens et les nombres\nL'écriture par lots pour les groupes cron combinant tous les points de données en une seule requête HTTP\nLogique de ré-essai exponentielle avec classification intelligente (4xx sans ré-essai, 429/5xx réessayer)\nTemps d'écriture configurable et tentatives de réessayer\nStockage de jeton API chiffré en utilisant le chiffrement natif d'ioBroker\nContrôle de santé de connexion au démarrage avec l'indicateur d'état `info.connection`\nAdmin UI avec connexion, groupes d'enregistrement, points de données et onglets avancés\nNavigateur objet pour la sélection visuelle ioBroker état dans admin UI\nBouton de test de connexion pour valider la connectivité InfluxDB à partir de l'interface utilisateur admin\nCascading groupe renommer les mises à jour sur tous les points de référence de données\nValidation de démarrage avec avertissements pour les groupes manquants ou mal configurés et les points de données\nFermeture gracieuse avec nettoyage cron et suppression d'abonnement\nDéboguer le mode de journalisation pour le dépannage\nTraductions anglaise et allemande",
-				"it": "Supporto di InfluxDB v2.x tramite API HTTP nativo con autenticazione basata su gettoni\nRegistrazione Dual-mode: raccolta periodica a base di cron e scrittura in tempo reale\nGruppi di registrazione multipli con secchiello indipendente, tipo di trigger e programma di cron\nPunti di dati configurabili con nomi di misura personalizzati, chiavi di campo e tag InfluxDB\nFormattazione del protocollo di linea InfluxDB con corretta gestione del tipo per stringhe, booleans e numeri\nScrittura batch per gruppi cron combinando tutti i punti di dati in una singola richiesta HTTP\nLogica di ripasso espositiva con classificazione intelligente (4xx no-retry, 429/5xx retry)\nTimeout di scrittura configurabile e tentativi di riprovazione\nStorage token API crittografato utilizzando la crittografia nativa di ioBroker\nControllo di salute di connessione all'avvio con `info.connection` indicatore di stato\nAdmin UI con connessione, gruppi di registrazione, punti dati e schede avanzate\nBrowser di oggetti per la selezione dello stato di ioBroker visivo in admin UI\nPulsante di test di connessione per la convalida della connettività InfluxDB da admin UI\nRinominare gli aggiornamenti del gruppo Cascading in tutti i punti di riferimento\nConvalida di avvio con avvisi per gruppi e punti dati mancanti o non configurati\nChiusura graziosa con pulizia del lavoro di cron e rimozione dell'abbonamento\nModalità di registrazione Debug per la risoluzione dei problemi\nTraduzioni in inglese e tedesco",
-				"es": "Soporte de InfluxDB v2.x vía API HTTP nativa con autenticación basada en token\nRegistro de doble movimiento: colección periódica basada en cron y escribe en tiempo real a cambio\nMúltiples grupos de registro con cubo independiente, tipo de gatillo y cronograma\nPuntos de datos con nombres de medición personalizados, claves de campo y etiquetas InfluxDB\nProtocolo de línea InfluxDB formato con el manejo adecuado de tipo para cadenas, booleanos y números\nEscrito por lotes para grupos de cron que combinan todos los puntos de datos en una sola solicitud HTTP\nLógica de reingreso exponencial con clasificación inteligente (4x no-retry, 429/5xx retry)\nTiempo de escritura configurable y intentos de reingreso\nAlmacenamiento de token API cifrado usando el cifrado nativo de ioBroker\nControl de salud de conexión en el inicio con indicador de estado de `info.connection &apos\nAdmin UI con conexión, grupos de registro, puntos de datos y pestañas avanzadas\nNavegador de objetos para la selección de estado ioBroker visual en admin UI\nBotón de prueba de conexión para validar conectividad InfluxDB de admin UI\nActualizaciones de renombre del grupo Cascading en todos los puntos de referencia\nValidación de inicio con advertencias para grupos y puntos de datos perdidos o mal configurados\nCerramiento elegante con limpieza de empleo de cron y eliminación de suscripción\nModo de registro de depuración para solución de problemas\nTraducciones en inglés y alemán",
-				"pl": "InfluxDB v2.x wsparcie poprzez natywny HTTP API z uwierzytelnianiem na bazie token-\nLogowanie w trybie dual- mode: coron- based periodyc collection and on- change real-time writs\nWiele grup logowania z niezależnym wiadro, typ wyzwalacza i harmonogram cron\nKonfigurowalne punkty danych z niestandardowymi nazwami pomiarów, klawiszami pola i znacznikami InfluxDB\nProtocol linii InfluxDB formatowanie z prawidłową obsługą typu dla strun, boolendów i liczb\nPisanie partii dla grup cron łączących wszystkie punkty danych w jedno żądanie HTTP\nExponal backup retry logic with smart classification (4xx no-retry, 429 / 5xx retry)\nKonfigurable zapis timeout i ponownych prób\nZaszyfrowany token pamięci masowej API przy użyciu natywnego szyfrowania iBrokera\nKontrola stanu połączenia przy starcie ze wskaźnikiem stanu 'info.connection'\nAdmin UI with Connection, Logging Group, Data Points, and Advanced tabs\nPrzeglądarka obiektów dla wizualnego wyboru stanu jOBroker w UI administratora\nPrzycisk testu połączenia do walidacji połączenia InfluxDB z interfejsu administratora\nGrupa kaskadowa zmienia nazwę aktualizacji we wszystkich odsyłających punktach danych\nWalidacja startup z ostrzeżeniami dla brakujących lub źle skonfigurowanych grup i punktów danych\nPełne gracji zamknięcie z cron sprzątanie pracy i usuwanie subskrypcji\nTryb logowania debugowania dla rozwiązywania problemów\nTłumaczenia angielskie i niemieckie",
-				"uk": "InfluxDB v2.x підтримка через рідний HTTP API з токеном\nДвостороння логістика: періодична збірка на основі кронів та навігація в режимі реального часу\nБагатоканальні групи з незалежним відро, тригерним типом та графіком\nНалаштування точок даних з іменами користувацького вимірювання, ключами поля та тегами InfluxDB\nФорматування протоколу nluxDB з правильним типом для рядків, болеанів та чисел\nПакетне написання для cron груп, що поєднують всі точки даних в один запит HTTP\nЕксплуатована логіка зворотного зв'язку з розумною класифікацією (4xx No-retry, 429/5xx)\nНалаштування часу запису та повторення\nЗашифровано сховище API токени за допомогою рідного шифрування ioBroker\nПеревірка стану підключення до системи `info.connection`\nАдміністратор UI з підключенням, групами, точками даних та розширеними вкладками\nОб'єктний браузер для вибору стану візуального ioBroker в адмін UI\nКнопка перевірки підключення для перевірки підключення InfluxDB від адміністратора UI\nОновлення перейменування груп Cascading у всіх пунктах обробки даних\nВправа стартапу з попередженнями про відсутність або неправильного налаштування груп та точок даних\nГрайливий відключення з чітким очищенням та видаленням передплати\nРежим реєстрації Debug для усунення несправностей\nАнглійська і німецька переклади",
-				"zh-cn": "InfluxDB v2.x 通过本地的 HTTP API 支持,并基于符号认证\n双模式记录:基于 crunon 的定期收藏和实时更改\n多个有独立桶、触发类型和克龙时间表的伐木组\n带有自定义测量名称、字段密钥和InfluxDB标签的可配置数据点\n用于字符串、布林和数字的适当类型处理的 ifluxDB 行协议格式\n将所有数据点合并成单一的 HTTP 请求的 cron 组批量写入\n具有智能分类(4xx no-retrich,429/5xx retrich)的指向反转逻辑\n可配置的写入超时和重试尝试\n使用 ioBroker 本地加密加密 API 令牌存储\n启动时将健康检查连接到“ info. connection”状态指标\n管理连接、 日志组、 数据点和高级标签的 UI\n管理员 UI 中可视化 ioBroker 状态选择对象浏览器\n连接测试按钮, 用于验证来自 admin UI 的 InfluxDB 连接\n所有引用数据点的分层组重命名更新\n对丢失或配置错误的组和数据点发出警告的启动验证\n以 cron 工作清理和订阅删除方式紧急关闭\n排除故障的调试记录模式\n英文和德文翻译"
-			}
-		},
-		"titleLang": {
-			"en": "InfluxDB ProLogger",
-			"de": "InfluxDB ProLogger",
-			"ru": "InfluxDB Прологгер",
-			"pt": "InfluxDB ProLogger",
-			"nl": "InfluxDB ProLogger",
-			"fr": "InfluxDB ProLogger",
-			"it": "InfluxDB ProLogger",
-			"es": "InfluxDB ProLogger",
-			"pl": "InfluxDB ProLogger",
-			"uk": "InfluxDB ProLogger",
-			"zh-cn": "InfluxDB ProLogger"
-		},
-		"desc": {
-			"en": "Flexible InfluxDB v2 data logger with configurable logging groups, multiple buckets, cron-based and on-change triggers",
-			"de": "Flexibler InfluxDB v2-Datenlogger mit konfigurierbaren Protokollierungsgruppen, mehreren Buckets, Cron-basierten und On-Change-Triggern",
-			"ru": "Гибкий регистратор данных InfluxDB v2 с настраиваемыми группами журналирования, несколькими сегментами, триггерами на основе cron и триггерами при изменении.",
-			"pt": "Registrador de dados InfluxDB v2 flexível com grupos de registro configuráveis, vários buckets, gatilhos baseados em cron e em mudança",
-			"nl": "Flexibele InfluxDB v2 datalogger met configureerbare loggroepen, meerdere buckets, cron-gebaseerde en on-change triggers",
-			"fr": "Enregistreur de données InfluxDB v2 flexible avec groupes de journalisation configurables, plusieurs compartiments, déclencheurs cron et en cas de changement",
-			"it": "Data logger flessibile InfluxDB v2 con gruppi di registrazione configurabili, bucket multipli, trigger basati su cron e su modifica",
-			"es": "Registrador de datos flexible InfluxDB v2 con grupos de registro configurables, múltiples depósitos, activadores basados ​​en cron y en caso de cambio",
-			"pl": "Elastyczny rejestrator danych InfluxDB v2 z konfigurowalnymi grupami rejestrowania, wieloma zasobnikami, wyzwalaczami opartymi na cron i na zmianie",
-			"uk": "Гнучкий реєстратор даних InfluxDB v2 із настроюваними групами журналювання, декількома сегментами, тригерами на основі cron і on-change",
-			"zh-cn": "灵活的 InfluxDB v2 数据记录器，具有可配置的日志记录组、多个存储桶、基于 cron 和变化的触发器"
-		},
-		"authors": [
-			"Simon Prosen <simon@prosen.dev>"
-		],
-		"keywords": [
-			"influxdb",
-			"logging",
-			"data-logger",
-			"iot",
-			"smart-home",
-			"monitoring",
-			"time-series"
-		],
-		"licenseInformation": {
-			"type": "free",
-			"license": "MIT"
-		},
-		"platform": "Javascript/Node.js",
-		"icon": "influxdb-prologger.png",
-		"enabled": true,
-		"extIcon": "https://raw.githubusercontent.com/simpros/ioBroker.influxdb-prologger/main/admin/influxdb-prologger.png",
-		"readme": "https://github.com/simpros/ioBroker.influxdb-prologger/blob/main/README.md",
-		"loglevel": "info",
-		"tier": 3,
-		"mode": "daemon",
-		"type": "storage",
-		"compact": true,
-		"connectionType": "local",
-		"dataSource": "push",
-		"messagebox": true,
-		"adminUI": {
-			"config": "materialize"
-		},
-		"eraseOnUpload": true,
-		"dependencies": [
-			{
-				"js-controller": ">=6.0.11"
-			}
-		],
-		"globalDependencies": [
-			{
-				"admin": ">=7.6.20"
-			}
-		]
-	},
-	"native": {
-		"url": "http://localhost:8086",
-		"organization": "",
-		"token": "",
-		"groups": [],
-		"datapoints": [],
-		"writeTimeout": 5000,
-		"retryOnError": true,
-		"maxRetries": 3,
-		"enableDebugLogs": false
-	},
-	"encryptedNative": [
-		"token"
-	],
-	"protectedNative": [
-		"token"
-	],
-	"objects": [],
-	"instanceObjects": [
-		{
-			"_id": "info",
-			"type": "channel",
-			"common": {
-				"name": "Information"
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.connection",
-			"type": "state",
-			"common": {
-				"role": "indicator.connected",
-				"name": "Device or service connected",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		}
-	]
+  "common": {
+    "name": "influxdb-prologger",
+    "version": "1.0.1",
+    "news": {
+      "1.0.1": {
+        "en": "Fixed ack handling for on-change writes so acknowledged updates are processed correctly\nImproved admin UI responsiveness on small screens with scrollable tabs and more flexible layouts\nRemoved the batch-write toggle from the admin UI and enforce batching based on trigger type\nAdded and improved translations for additional languages in the admin UI\nMoved admin UI packages to `devDependencies` and consolidated the project package setup\nUpdated admin logo assets and added an SVG variant\nRefreshed build, test, TypeScript, and dependency configuration from the current template and dependency updates",
+        "de": "Behobene ack-Handling für On-change-Schreiben, so dass anerkannte Updates korrekt verarbeitet werden\nVerbesserte Admin-UI-Reaktion auf kleinen Bildschirmen mit scrollbaren Tabs und flexiblere Layouts\nEntfernen des Batch-Schreibens von der Admin-UI und durchsetzen Batch auf Basis des Trigger-Typs\nHinzugefügte und verbesserte Übersetzungen für weitere Sprachen im Admin UI\nVersetzte Admin-UI-Pakete zu `devDependencies` und konsolidierte das Projektpaket\nAktualisierte Admin-Logo-Assets und eine SVG-Variante hinzugefügt\nErfrischte Build-, Test-, TypeScript- und Abhängigkeitskonfiguration aus der aktuellen Vorlage und Abhängigkeitsaktualisierung",
+        "ru": "Фиксированная обработка ack для записи на смену, поэтому признанные обновления обрабатываются правильно\nУлучшенная адаптивность пользовательского интерфейса администратора на небольших экранах с прокручиваемыми вкладками и более гибкими макетами\nУдалил пакетно-записывающий переключатель из пользовательского интерфейса администратора и усилил пакетирование на основе типа триггера\nДобавлены и улучшены переводы для дополнительных языков в интерфейсе администратора\nПеренес пакеты пользовательского интерфейса администратора в «devDependencies» и консолидировал настройку пакета проекта\nОбновлен логотип администратора и добавлен вариант SVG\nОбновленная сборка, тестирование, TypeScript и конфигурация зависимостей из текущего шаблона и обновлений зависимостей",
+        "pt": "Manuseamento fixo de ack para escrita em mudança assim que as atualizações reconhecidas são processadas corretamente\nResposta de interface de administração melhorada em telas pequenas com abas roláveis e layouts mais flexíveis\nRemoveu o alternância de escrita em lote da interface de administração e executou o lotching com base no tipo de gatilho\nAdicionado e traduções melhoradas para idiomas adicionais na interface de administração\nPacotes de interface de administração movidos para `devDependencies' e consolidou a configuração do pacote de projeto\nAtivos de logotipo de administrador atualizados e adicionado uma variante SVG\nAtualizada configuração de compilação, teste, TypeScript e dependência do modelo atual e atualizações de dependência",
+        "nl": "Vaste ack handling voor on-change schrijft zodat erkende updates correct worden verwerkt\nVerbeterde admin UI responsiviteit op kleine schermen met schuifbare tabbladen en flexibelere lay-outs\nVerwijderde de batch-write toggle van de admin UI en af te dwingen batching op basis van trigger type\nToegevoegd en verbeterde vertalingen voor extra talen in de admin UI\nVerhuisde admin UI pakketten naar devDependents en consolideerde het project pakket setup\nBijgewerkt admin logo activa en toegevoegd een SVG variant\nVernieuwde bouw, test, TypeScript, en afhankelijkheid configuratie van de huidige sjabloon en afhankelijkheid updates",
+        "fr": "Correction de la manipulation ack pour le changement écrit ainsi les mises à jour reconnues sont traitées correctement\nAmélioration de la réactivité de l'interface utilisateur admin sur les petits écrans avec des onglets défilants et des mises en page plus flexibles\nSupprimé le batch-write toggle de l'interface utilisateur d'administration et d'appliquer le batch basé sur le type de déclencheur\nAjout et amélioration des traductions pour d'autres langues dans l'interface utilisateur admin\nTransféré les paquets d'interface utilisateur admin à `devDependences` et consolidé la configuration du paquet projet\nMise à jour des actifs du logo d'administration et ajout d'une variante SVG\nConfiguration de compilation, de test, de TypeScript et de dépendance rafraîchie à partir du modèle actuel et des mises à jour de dépendance",
+        "it": "Gestione ack fisso per le scritture di cambio così gli aggiornamenti riconosciuti vengono elaborati correttamente\nMigliorata reattività dell'interfaccia utente di amministrazione su piccoli schermi con schede scorrevoli e layout più flessibili\nRimuoveto il batch-write toggle dall'interfaccia utente di amministrazione e eseguire batching in base al tipo di trigger\nTraduzioni aggiuntive e migliorate per altre lingue nell'interfaccia utente\nTrasferito i pacchetti UI di admin a `devDependencies` e consolidato la configurazione del pacchetto di progetto\nAggiornato il logo di admin e aggiunto una variante SVG\nConfigurazione di build, test, TypeScript e dipendenza rinnovata dagli aggiornamenti attuali del modello e della dipendenza",
+        "es": "Manejo de la cubierta fija para los escritos de cambio así que las actualizaciones reconocidas se procesan correctamente\nMejorada capacidad de respuesta de la interfaz de usuario en pantallas pequeñas con pestañas desplazables y diseños más flexibles\nRetirada de la interfaz de usuario del administrador y ejecute el batido basado en el tipo de disparador\nTraducciones agregadas y mejoradas para idiomas adicionales en el administrador UI\nMoved admin UI paquetes a `devDependencies' y consolidado el paquete del proyecto\nActivos actualizados del logotipo del administrador y añadido una variante SVG\nConfiguración, prueba, tipoScript y configuración de dependencia de la plantilla actual y actualizaciones de dependencia",
+        "pl": "Naprawiono obsługę Ack dla on- change pisze więc potwierdzone aktualizacje są przetwarzane poprawnie\nUlepszony interfejs administracyjny na małych ekranach z zakładkami do przewijania i bardziej elastyczne układy\nUsunięto włącznik batch- write z interfejsu administratora i wymuszenie łatania w oparciu o typ wyzwalacza\nDodano i ulepszono tłumaczenia na dodatkowe języki w UI admin\nPrzesunięto pakiety UI administratora do 'devDevendences' i skonsolidowano konfigurację pakietu projektu\nAktualizacja aktywów logo administratora i dodano wariant SVG\nOdśwież konfigurację budowania, testowania, TypeScript i zależności z aktualnego szablonu i aktualizacji zależności",
+        "uk": "Фіксована ставка для запису на зміну, тому визначені оновлення обробляються правильно\nПокращена адміністрація UI на невеликих екранах з прокрученими вкладками та більш гнучкими макетами\nВилучено пакетно-вритовий перемикач з адміна UI і застосовує пакетування на основі тригерного типу\nДодано та вдосконалені переклади для додаткових мов в адмін UI\nПеревірені пакети адміністратора UI до `devDepencies` та консолідовані налаштування пакету проекту\nОновлений варіант логотипу адміністратора та додано варіант SVG\nRefreshed build, test, TypeScript та налаштування залежностей від поточного шаблону та оновлення залежності",
+        "zh-cn": "为更改撰写的固定的按键处理, 所以确认的更新处理正确\n在小屏幕上改进了可滚动标签和更加灵活的布局的管理员UI响应\n从管理员 UI 中删除批次写入切换,并根据触发类型强制进行批次\n增加和改进管理UI中其他语言的翻译\n将管理用户界面软件包移至“ devdependency” 并合并了项目软件包设置\n更新管理标识资产并添加 SVG 变体\n从当前模板和依赖性更新中刷新构建、 测试、 类型脚本和依赖性配置"
+      },
+      "1.0.0": {
+        "en": "InfluxDB v2.x support via native HTTP API with token-based authentication\nDual-mode logging: cron-based periodic collection and on-change real-time writes\nMultiple logging groups with an independent bucket, trigger type, and cron schedule\nConfigurable datapoints with custom measurement names, field keys, and InfluxDB tags\nInfluxDB line protocol formatting with proper type handling for strings, booleans, and numbers\nBatch writing for cron groups that combines all datapoints into a single HTTP request\nExponential backoff retry logic with smart classification (4xx no retry, 429/5xx retry)\nConfigurable write timeout and retry attempts\nEncrypted API token storage using ioBroker's native encryption\nConnection health check on startup with the `info.connection` state indicator\nAdmin UI with Connection, Logging Groups, Datapoints, and Advanced tabs\nObject browser for visual ioBroker state selection in the admin UI\nConnection test button for validating InfluxDB connectivity from the admin UI\nCascading group rename updates across all referencing datapoints\nStartup validation with warnings for missing or misconfigured groups and datapoints\nGraceful shutdown with cron cleanup and subscription removal\nDebug logging mode for troubleshooting\nEnglish and German translations",
+        "de": "InfluxDB v2.x-Unterstützung über die native HTTP-API mit tokenbasierter Authentifizierung\nLogging in zwei Modi: periodische Erfassung per Cron und Echtzeitschreiben bei Änderungen\nMehrere Logging-Gruppen mit eigenem Bucket, Triggertyp und Cron-Zeitplan\nKonfigurierbare Datenpunkte mit benutzerdefinierten Messungsnamen, Feldschlüsseln und InfluxDB-Tags\nFormatierung im InfluxDB-Line-Protocol mit korrekter Typbehandlung für Strings, Boolesche Werte und Zahlen\nBatch-Schreiben für Cron-Gruppen, das alle Datenpunkte in einer einzigen HTTP-Anfrage zusammenfasst\nExponential-Backoff-Retry-Logik mit intelligenter Klassifizierung (4xx kein Retry, 429/5xx Retry)\nKonfigurierbares Schreib-Timeout und konfigurierbare Anzahl von Wiederholungsversuchen\nVerschlüsselte Speicherung des API-Tokens mit der nativen Verschlüsselung von ioBroker\nVerbindungsprüfung beim Start mit dem Zustandsindikator `info.connection`\nAdmin-UI mit den Tabs Verbindung, Logging-Gruppen, Datenpunkte und Erweitert\nObjektbrowser zur visuellen Auswahl von ioBroker-Zuständen in der Admin-UI\nSchaltfläche zum Testen der Verbindung für die InfluxDB-Konnektivität aus der Admin-UI\nKaskadierende Aktualisierung von Gruppenumbenennungen in allen referenzierenden Datenpunkten\nValidierung beim Start mit Warnungen für fehlende oder falsch konfigurierte Gruppen und Datenpunkte\nSauberes Beenden mit Cron-Cleanup und Entfernen der Subscriptions\nDebug-Logging-Modus zur Fehlersuche\nEnglische und deutsche Übersetzungen",
+        "ru": "Поддержка InfluxDB v2.x через собственный HTTP API с аутентификацией на основе токенов\nДвухрежимная регистрация: периодическая коллекция на основе крон и записи в режиме реального времени\nНесколько групп регистрации с независимым ведром, типом триггера и графиком крон\nНастраиваемые точки данных с пользовательскими именами измерений, полевыми ключами и тегами InfluxDB\nФорматирование протокола линии InfluxDB с правильной обработкой типа для строк, булев и чисел\nНаписание пакетов для групп cron, объединяющих все точки данных в один HTTP-запрос\nЭкспоненциальная логика обратного повтора с умной классификацией (4xx no-retry, 429/5xx retry)\nНастраиваемый тайм-аут записи и повторные попытки\nЗашифрованное хранилище токенов API с использованием собственного шифрования ioBroker\nПроверка состояния подключения при запуске с индикатором состояния «info.connection»\nАдмин UI с подключением, группами регистрации, точками данных и расширенными вкладками\nОбъектный браузер для визуального выбора состояния ioBroker в пользовательском интерфейсе admin\nКнопка проверки подключения InfluxDB от admin UI\nКаскадная группа переименовывает обновления во всех точках ссылок\nПроверка запуска с предупреждениями о недостающих или неправильно настроенных группах и точках данных\nБлагодатное закрытие с очисткой работы и удалением подписки\nРежим регистрации отладки для устранения неполадок\nАнглийский и немецкий переводы",
+        "pt": "Suporte ao InfluxDB v2.x via API HTTP nativa com autenticação baseada em fichas\nRegistro em modo duplo: coleta periódica baseada em cron e gravações em tempo real\nVários grupos de registro com balde independente, tipo de gatilho e cronograma de cron\nPontos de dados configuráveis com nomes de medição personalizados, teclas de campo e etiquetas InfluxDB\nFormatação de protocolo de linha InfluxDB com manuseio de tipo adequado para strings, booleanos e números\nGravação em lote para grupos cron combinando todos os pontos de dados em uma única solicitação HTTP\nLógica de retrocesso exponencial com classificação inteligente (4xx no-retry, 429/5xx retry)\nTempo de gravação configurável e tentativas de repetição\nArmazenamento criptografado do token de API usando criptografia nativa do ioBroker\nVerificação de saúde de conexão na inicialização com indicador de estado 'info.connection'\nAdministrar UI com conexões, grupos de registro, pontos de dados e guias avançadas\nNavegador de objetos para seleção visual de estado ioBroker na interface de administração\nBotão de teste de conexão para validar conectividade InfluxDB do administrador UI\nGrupo Cascading renomeia atualizações em todos os pontos de referência de dados\nValidação inicial com avisos para grupos e pontos de dados faltantes ou mal configurados\nDesligamento gracioso com limpeza do trabalho cron e remoção da assinatura\nModo de registro de depuração para solução de problemas\nTraduções em inglês e alemão",
+        "nl": "InfluxDB v2.x ondersteuning via native HTTP API met token-gebaseerde authenticatie\nDual-mode logging: cron-gebaseerde periodieke verzameling en on-change real-time schrijft\nMeerdere loggroepen met onafhankelijke emmer, trigger type en cron schema\nConfigureerbare datapunten met aangepaste meetnamen, veldtoetsen en InfluxDB-tags\nInfluxDB lijn protocol formatteren met de juiste type behandeling voor strings, booleanen, en nummers\nBatch schrijven voor cron groepen die alle datapunten combineren tot één HTTP verzoek\nExponentiële backoff retry logica met slimme classificatie (4xx no-retry, 429/5xx retry)\nConfigureerbare schrijftijd-out en opnieuw proberen\nVersleutelde API token opslag met behulp van ioBroker native encryptie\nVerbinding gezondheidscontrole bij het opstarten met de indicator van de toestand van de verbinding met de informatie-info\nBeheerder UI met verbinding, logging groepen, datapunten, en geavanceerde tabbladen\nObject browser voor visuele ioBroker staat selectie in admin UI\nVerbindingstestknop voor het valideren van InfluxDB-connectiviteit van admin UI\nCascading groep hernoemen updates over alle referentiegegevenspunten\nOpstartvalidatie met waarschuwingen voor ontbrekende of verkeerd geconfigureerde groepen en datapunten\nGraceful shutdown met cron job opruimen en abonnement verwijderen\nLogmodus voor probleemoplossing debuggen\nEngelse en Duitse vertalingen",
+        "fr": "Prise en charge d'InfluxDB v2.x via l'API HTTP native avec authentification par jeton\nLogage en double mode: collecte périodique basée sur cron et sur le changement écrit en temps réel\nPlusieurs groupes d'enregistrement avec seau indépendant, type de déclencheur et calendrier de cron\nPoints de données configurables avec noms de mesure personnalisés, touches de champ et balises InfluxDB\nFormatage du protocole de ligne InfluxDB avec manipulation de type appropriée pour les chaînes, les booléens et les nombres\nL'écriture par lots pour les groupes cron combinant tous les points de données en une seule requête HTTP\nLogique de ré-essai exponentielle avec classification intelligente (4xx sans ré-essai, 429/5xx réessayer)\nTemps d'écriture configurable et tentatives de réessayer\nStockage de jeton API chiffré en utilisant le chiffrement natif d'ioBroker\nContrôle de santé de connexion au démarrage avec l'indicateur d'état `info.connection`\nAdmin UI avec connexion, groupes d'enregistrement, points de données et onglets avancés\nNavigateur objet pour la sélection visuelle ioBroker état dans admin UI\nBouton de test de connexion pour valider la connectivité InfluxDB à partir de l'interface utilisateur admin\nCascading groupe renommer les mises à jour sur tous les points de référence de données\nValidation de démarrage avec avertissements pour les groupes manquants ou mal configurés et les points de données\nFermeture gracieuse avec nettoyage cron et suppression d'abonnement\nDéboguer le mode de journalisation pour le dépannage\nTraductions anglaise et allemande",
+        "it": "Supporto di InfluxDB v2.x tramite API HTTP nativo con autenticazione basata su gettoni\nRegistrazione Dual-mode: raccolta periodica a base di cron e scrittura in tempo reale\nGruppi di registrazione multipli con secchiello indipendente, tipo di trigger e programma di cron\nPunti di dati configurabili con nomi di misura personalizzati, chiavi di campo e tag InfluxDB\nFormattazione del protocollo di linea InfluxDB con corretta gestione del tipo per stringhe, booleans e numeri\nScrittura batch per gruppi cron combinando tutti i punti di dati in una singola richiesta HTTP\nLogica di ripasso espositiva con classificazione intelligente (4xx no-retry, 429/5xx retry)\nTimeout di scrittura configurabile e tentativi di riprovazione\nStorage token API crittografato utilizzando la crittografia nativa di ioBroker\nControllo di salute di connessione all'avvio con `info.connection` indicatore di stato\nAdmin UI con connessione, gruppi di registrazione, punti dati e schede avanzate\nBrowser di oggetti per la selezione dello stato di ioBroker visivo in admin UI\nPulsante di test di connessione per la convalida della connettività InfluxDB da admin UI\nRinominare gli aggiornamenti del gruppo Cascading in tutti i punti di riferimento\nConvalida di avvio con avvisi per gruppi e punti dati mancanti o non configurati\nChiusura graziosa con pulizia del lavoro di cron e rimozione dell'abbonamento\nModalità di registrazione Debug per la risoluzione dei problemi\nTraduzioni in inglese e tedesco",
+        "es": "Soporte de InfluxDB v2.x vía API HTTP nativa con autenticación basada en token\nRegistro de doble movimiento: colección periódica basada en cron y escribe en tiempo real a cambio\nMúltiples grupos de registro con cubo independiente, tipo de gatillo y cronograma\nPuntos de datos con nombres de medición personalizados, claves de campo y etiquetas InfluxDB\nProtocolo de línea InfluxDB formato con el manejo adecuado de tipo para cadenas, booleanos y números\nEscrito por lotes para grupos de cron que combinan todos los puntos de datos en una sola solicitud HTTP\nLógica de reingreso exponencial con clasificación inteligente (4x no-retry, 429/5xx retry)\nTiempo de escritura configurable y intentos de reingreso\nAlmacenamiento de token API cifrado usando el cifrado nativo de ioBroker\nControl de salud de conexión en el inicio con indicador de estado de `info.connection &apos\nAdmin UI con conexión, grupos de registro, puntos de datos y pestañas avanzadas\nNavegador de objetos para la selección de estado ioBroker visual en admin UI\nBotón de prueba de conexión para validar conectividad InfluxDB de admin UI\nActualizaciones de renombre del grupo Cascading en todos los puntos de referencia\nValidación de inicio con advertencias para grupos y puntos de datos perdidos o mal configurados\nCerramiento elegante con limpieza de empleo de cron y eliminación de suscripción\nModo de registro de depuración para solución de problemas\nTraducciones en inglés y alemán",
+        "pl": "InfluxDB v2.x wsparcie poprzez natywny HTTP API z uwierzytelnianiem na bazie token-\nLogowanie w trybie dual- mode: coron- based periodyc collection and on- change real-time writs\nWiele grup logowania z niezależnym wiadro, typ wyzwalacza i harmonogram cron\nKonfigurowalne punkty danych z niestandardowymi nazwami pomiarów, klawiszami pola i znacznikami InfluxDB\nProtocol linii InfluxDB formatowanie z prawidłową obsługą typu dla strun, boolendów i liczb\nPisanie partii dla grup cron łączących wszystkie punkty danych w jedno żądanie HTTP\nExponal backup retry logic with smart classification (4xx no-retry, 429 / 5xx retry)\nKonfigurable zapis timeout i ponownych prób\nZaszyfrowany token pamięci masowej API przy użyciu natywnego szyfrowania iBrokera\nKontrola stanu połączenia przy starcie ze wskaźnikiem stanu 'info.connection'\nAdmin UI with Connection, Logging Group, Data Points, and Advanced tabs\nPrzeglądarka obiektów dla wizualnego wyboru stanu jOBroker w UI administratora\nPrzycisk testu połączenia do walidacji połączenia InfluxDB z interfejsu administratora\nGrupa kaskadowa zmienia nazwę aktualizacji we wszystkich odsyłających punktach danych\nWalidacja startup z ostrzeżeniami dla brakujących lub źle skonfigurowanych grup i punktów danych\nPełne gracji zamknięcie z cron sprzątanie pracy i usuwanie subskrypcji\nTryb logowania debugowania dla rozwiązywania problemów\nTłumaczenia angielskie i niemieckie",
+        "uk": "InfluxDB v2.x підтримка через рідний HTTP API з токеном\nДвостороння логістика: періодична збірка на основі кронів та навігація в режимі реального часу\nБагатоканальні групи з незалежним відро, тригерним типом та графіком\nНалаштування точок даних з іменами користувацького вимірювання, ключами поля та тегами InfluxDB\nФорматування протоколу nluxDB з правильним типом для рядків, болеанів та чисел\nПакетне написання для cron груп, що поєднують всі точки даних в один запит HTTP\nЕксплуатована логіка зворотного зв'язку з розумною класифікацією (4xx No-retry, 429/5xx)\nНалаштування часу запису та повторення\nЗашифровано сховище API токени за допомогою рідного шифрування ioBroker\nПеревірка стану підключення до системи `info.connection`\nАдміністратор UI з підключенням, групами, точками даних та розширеними вкладками\nОб'єктний браузер для вибору стану візуального ioBroker в адмін UI\nКнопка перевірки підключення для перевірки підключення InfluxDB від адміністратора UI\nОновлення перейменування груп Cascading у всіх пунктах обробки даних\nВправа стартапу з попередженнями про відсутність або неправильного налаштування груп та точок даних\nГрайливий відключення з чітким очищенням та видаленням передплати\nРежим реєстрації Debug для усунення несправностей\nАнглійська і німецька переклади",
+        "zh-cn": "InfluxDB v2.x 通过本地的 HTTP API 支持,并基于符号认证\n双模式记录:基于 crunon 的定期收藏和实时更改\n多个有独立桶、触发类型和克龙时间表的伐木组\n带有自定义测量名称、字段密钥和InfluxDB标签的可配置数据点\n用于字符串、布林和数字的适当类型处理的 ifluxDB 行协议格式\n将所有数据点合并成单一的 HTTP 请求的 cron 组批量写入\n具有智能分类(4xx no-retrich,429/5xx retrich)的指向反转逻辑\n可配置的写入超时和重试尝试\n使用 ioBroker 本地加密加密 API 令牌存储\n启动时将健康检查连接到“ info. connection”状态指标\n管理连接、 日志组、 数据点和高级标签的 UI\n管理员 UI 中可视化 ioBroker 状态选择对象浏览器\n连接测试按钮, 用于验证来自 admin UI 的 InfluxDB 连接\n所有引用数据点的分层组重命名更新\n对丢失或配置错误的组和数据点发出警告的启动验证\n以 cron 工作清理和订阅删除方式紧急关闭\n排除故障的调试记录模式\n英文和德文翻译"
+      }
+    },
+    "titleLang": {
+      "en": "InfluxDB ProLogger",
+      "de": "InfluxDB ProLogger",
+      "ru": "InfluxDB Прологгер",
+      "pt": "InfluxDB ProLogger",
+      "nl": "InfluxDB ProLogger",
+      "fr": "InfluxDB ProLogger",
+      "it": "InfluxDB ProLogger",
+      "es": "InfluxDB ProLogger",
+      "pl": "InfluxDB ProLogger",
+      "uk": "InfluxDB ProLogger",
+      "zh-cn": "InfluxDB ProLogger"
+    },
+    "desc": {
+      "en": "Flexible InfluxDB v2 data logger with configurable logging groups, multiple buckets, cron-based and on-change triggers",
+      "de": "Flexibler InfluxDB v2-Datenlogger mit konfigurierbaren Protokollierungsgruppen, mehreren Buckets, Cron-basierten und On-Change-Triggern",
+      "ru": "Гибкий регистратор данных InfluxDB v2 с настраиваемыми группами журналирования, несколькими сегментами, триггерами на основе cron и триггерами при изменении.",
+      "pt": "Registrador de dados InfluxDB v2 flexível com grupos de registro configuráveis, vários buckets, gatilhos baseados em cron e em mudança",
+      "nl": "Flexibele InfluxDB v2 datalogger met configureerbare loggroepen, meerdere buckets, cron-gebaseerde en on-change triggers",
+      "fr": "Enregistreur de données InfluxDB v2 flexible avec groupes de journalisation configurables, plusieurs compartiments, déclencheurs cron et en cas de changement",
+      "it": "Data logger flessibile InfluxDB v2 con gruppi di registrazione configurabili, bucket multipli, trigger basati su cron e su modifica",
+      "es": "Registrador de datos flexible InfluxDB v2 con grupos de registro configurables, múltiples depósitos, activadores basados ​​en cron y en caso de cambio",
+      "pl": "Elastyczny rejestrator danych InfluxDB v2 z konfigurowalnymi grupami rejestrowania, wieloma zasobnikami, wyzwalaczami opartymi na cron i na zmianie",
+      "uk": "Гнучкий реєстратор даних InfluxDB v2 із настроюваними групами журналювання, декількома сегментами, тригерами на основі cron і on-change",
+      "zh-cn": "灵活的 InfluxDB v2 数据记录器，具有可配置的日志记录组、多个存储桶、基于 cron 和变化的触发器"
+    },
+    "authors": [
+      "Simon Prosen <simon@prosen.dev>"
+    ],
+    "keywords": [
+      "influxdb",
+      "logging",
+      "data-logger",
+      "iot",
+      "smart-home",
+      "monitoring",
+      "time-series"
+    ],
+    "licenseInformation": {
+      "type": "free",
+      "license": "MIT"
+    },
+    "platform": "Javascript/Node.js",
+    "icon": "influxdb-prologger.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/simpros/ioBroker.influxdb-prologger/main/admin/influxdb-prologger.png",
+    "readme": "https://github.com/simpros/ioBroker.influxdb-prologger/blob/main/README.md",
+    "loglevel": "info",
+    "tier": 3,
+    "mode": "daemon",
+    "type": "storage",
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "push",
+    "messagebox": true,
+    "adminUI": {
+      "config": "materialize"
+    },
+    "eraseOnUpload": true,
+    "dependencies": [
+      {
+        "js-controller": ">=6.0.11"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=7.6.20"
+      }
+    ]
+  },
+  "native": {
+    "url": "http://localhost:8086",
+    "organization": "",
+    "token": "",
+    "groups": [],
+    "datapoints": [],
+    "writeTimeout": 5000,
+    "retryOnError": true,
+    "maxRetries": 3,
+    "enableDebugLogs": false
+  },
+  "encryptedNative": [
+    "token"
+  ],
+  "protectedNative": [
+    "token"
+  ],
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device or service connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
 }

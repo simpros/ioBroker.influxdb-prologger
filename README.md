@@ -154,7 +154,7 @@ If you are currently using ioBroker JavaScript scripts for InfluxDB logging, you
 | `release` | Create a new release |
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 1.0.1 (2026-04-13)
 
 * (Simon Prosen) Fixed ack handling for on-change writes so acknowledged updates are processed correctly
 * (Simon Prosen) Improved admin UI responsiveness on small screens with scrollable tabs and more flexible layouts
