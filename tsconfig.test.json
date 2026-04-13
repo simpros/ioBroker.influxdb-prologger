@@ -1,0 +1,8 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"types": ["node", "mocha", "chai", "sinon", "sinon-chai"]
+	},
+	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.test.ts", "test/**/*.ts"],
+	"exclude": ["build/**", "node_modules/**", "widgets/**"]
+}
