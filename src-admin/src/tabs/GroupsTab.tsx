@@ -7,7 +7,6 @@ import {
 	Button,
 	Checkbox,
 	FormControl,
-	FormControlLabel,
 	Grid2 as Grid,
 	IconButton,
 	InputLabel,
@@ -32,7 +31,6 @@ const DEFAULT_GROUP: LoggingGroup = {
 	bucket: '',
 	triggerType: 'cron',
 	cronExpression: '*/15 * * * *',
-	batchWrite: true,
 };
 
 /**
@@ -88,18 +86,29 @@ export default function GroupsTab({ native, onChange }: GroupsTabProps): React.J
 					defaultExpanded={groups.length === 1}
 				>
 					<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-						<Box sx={{ display: 'flex', alignItems: 'center', width: '100%', gap: 1 }}>
+						<Box
+							sx={{
+								display: 'flex',
+								alignItems: 'center',
+								width: '100%',
+								gap: 1,
+								minWidth: 0,
+								flexWrap: { xs: 'wrap', sm: 'nowrap' },
+							}}
+						>
 							<Checkbox
 								checked={group.enabled}
 								onClick={e => e.stopPropagation()}
 								onChange={e => updateGroup(index, 'enabled', e.target.checked)}
 								size="small"
 							/>
-							<Typography sx={{ flex: 1 }}>{group.name || <em>({I18n.t('groupName')})</em>}</Typography>
+							<Typography sx={{ flex: 1, minWidth: 0, wordBreak: 'break-word' }}>
+								{group.name || <em>({I18n.t('groupName')})</em>}
+							</Typography>
 							<Typography
 								variant="caption"
 								color="text.secondary"
-								sx={{ mr: 1 }}
+								sx={{ mr: 1, width: { xs: '100%', sm: 'auto' }, wordBreak: 'break-word' }}
 							>
 								{group.bucket && `${group.bucket} | `}
 								{group.triggerType === 'cron' ? group.cronExpression : I18n.t('triggerOnChange')}
@@ -161,17 +170,6 @@ export default function GroupsTab({ native, onChange }: GroupsTabProps): React.J
 									/>
 								</Grid>
 							)}
-							<Grid size={{ xs: 12, sm: 4 }}>
-								<FormControlLabel
-									control={
-										<Checkbox
-											checked={group.batchWrite}
-											onChange={e => updateGroup(index, 'batchWrite', e.target.checked)}
-										/>
-									}
-									label={I18n.t('batchWrite')}
-								/>
-							</Grid>
 						</Grid>
 					</AccordionDetails>
 				</Accordion>

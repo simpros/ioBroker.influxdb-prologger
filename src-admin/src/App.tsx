@@ -3,6 +3,15 @@ import { Box, Tab, Tabs, ThemeProvider } from '@mui/material';
 import type { DatapointConfig, LoggingGroup, NativeConfig } from './types.d';
 import en from './i18n/en.json';
 import de from './i18n/de.json';
+import ru from './i18n/ru.json';
+import pt from './i18n/pt.json';
+import nl from './i18n/nl.json';
+import fr from './i18n/fr.json';
+import it from './i18n/it.json';
+import es from './i18n/es.json';
+import pl from './i18n/pl.json';
+import uk from './i18n/uk.json';
+import zhCn from './i18n/zh-cn.json';
 import ConnectionTab from './tabs/ConnectionTab';
 import GroupsTab from './tabs/GroupsTab';
 import DatapointsTab from './tabs/DatapointsTab';
@@ -21,7 +30,19 @@ class App extends GenericApp<GenericAppProps, AppState> {
 	 */
 	constructor(props: GenericAppProps) {
 		const extendedProps: GenericAppProps = { ...props };
-		extendedProps.translations = { en, de };
+		extendedProps.translations = {
+			en,
+			de,
+			ru,
+			pt,
+			nl,
+			fr,
+			it,
+			es,
+			pl,
+			uk,
+			'zh-cn': zhCn,
+		};
 		extendedProps.bottomButtons = true;
 		super(props, extendedProps);
 
@@ -81,21 +102,56 @@ class App extends GenericApp<GenericAppProps, AppState> {
 		return (
 			<ThemeProvider theme={this.state.theme}>
 				<Box
-					sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
+					sx={{
+						width: '100%',
+						height: '100%',
+						display: 'flex',
+						flexDirection: 'column',
+						overflow: 'hidden',
+						minWidth: 0,
+						minHeight: 0,
+					}}
 				>
-					<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+					<Box sx={{ borderBottom: 1, borderColor: 'divider', minWidth: 0 }}>
 						<Tabs
 							value={this.state.activeTab}
 							onChange={(_e, v) => this.setState({ activeTab: v })}
-							variant="standard"
+							variant="scrollable"
+							scrollButtons="auto"
+							allowScrollButtonsMobile
+							sx={{ minHeight: { xs: 48, sm: 56 } }}
 						>
-							<Tab label={I18n.t('connectionTab')} />
-							<Tab label={I18n.t('loggingGroupsTab')} />
-							<Tab label={I18n.t('datapointsTab')} />
-							<Tab label={I18n.t('advancedTab')} />
+							<Tab
+								label={I18n.t('connectionTab')}
+								wrapped
+								sx={{ minWidth: { xs: 'auto', sm: 160 }, px: { xs: 1.5, sm: 2 } }}
+							/>
+							<Tab
+								label={I18n.t('loggingGroupsTab')}
+								wrapped
+								sx={{ minWidth: { xs: 'auto', sm: 160 }, px: { xs: 1.5, sm: 2 } }}
+							/>
+							<Tab
+								label={I18n.t('datapointsTab')}
+								wrapped
+								sx={{ minWidth: { xs: 'auto', sm: 160 }, px: { xs: 1.5, sm: 2 } }}
+							/>
+							<Tab
+								label={I18n.t('advancedTab')}
+								wrapped
+								sx={{ minWidth: { xs: 'auto', sm: 160 }, px: { xs: 1.5, sm: 2 } }}
+							/>
 						</Tabs>
 					</Box>
-					<Box sx={{ flex: 1, overflow: 'auto', p: 2 }}>
+					<Box
+						sx={{
+							flex: 1,
+							overflow: 'auto',
+							minWidth: 0,
+							minHeight: 0,
+							p: { xs: 1, sm: 2 },
+						}}
+					>
 						{this.state.activeTab === 0 && (
 							<ConnectionTab
 								native={native}
