@@ -154,6 +154,10 @@ If you are currently using ioBroker JavaScript scripts for InfluxDB logging, you
 | `release` | Create a new release |
 
 ## Changelog
+### **WORK IN PROGRESS**
+
+* (Simon Prosen) Reduced excess spacing in the admin UI header by keeping configuration tab labels on a single line
+
 ### 1.0.1 (2026-04-13)
 
 * (Simon Prosen) Fixed ack handling for on-change writes so acknowledged updates are processed correctly
