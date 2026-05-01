@@ -55,7 +55,7 @@
     "@types/node": "^25.5.0",
     "@types/react": "^18.3.28",
     "@types/react-dom": "^18.3.7",
-    "@types/sinon": "^17.0.4",
+    "@types/sinon": "^21.0.1",
     "@types/sinon-chai": "^3.2.12",
     "@vitejs/plugin-react": "^4.7.0",
     "chai": "^4.5.0",
