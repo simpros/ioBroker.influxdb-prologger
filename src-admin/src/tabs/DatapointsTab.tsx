@@ -1,4 +1,5 @@
 import { DialogSelectID, I18n } from '@iobroker/adapter-react-v5';
+import type { AdminConnection, IobTheme } from '@iobroker/adapter-react-v5';
 import {
 	Box,
 	Button,
@@ -20,14 +21,14 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import type { DatapointConfig, NativeConfig } from '../types.d';
 
 interface DatapointsTabProps {
 	native: NativeConfig;
 	onChange: (attr: string, value: unknown) => void;
-	socket: any;
-	theme: any;
+	socket: AdminConnection;
+	theme: IobTheme;
 }
 
 const DEFAULT_DATAPOINT: DatapointConfig = {
@@ -56,22 +57,24 @@ export default function DatapointsTab({ native, onChange, socket, theme }: Datap
 	const groups = native.groups || [];
 	const groupNames = groups.map(g => g.name).filter(Boolean);
 
-	const updateDatapoints = (newDatapoints: DatapointConfig[]): void => {
+	const updateDatapoints = useCallback((newDatapoints: DatapointConfig[]): void => {
 		onChange('datapoints', newDatapoints);
-	};
+	}, [onChange]);
 
-	const addDatapoint = (): void => {
+	const addDatapoint = useCallback((): void => {
 		updateDatapoints([...datapoints, { ...DEFAULT_DATAPOINT, group: groupNames[0] || '' }]);
-	};
+	}, [updateDatapoints, datapoints, groupNames]);
 
-	const deleteDatapoint = (index: number): void => {
+	const deleteDatapoint = useCallback((index: number): void => {
 		updateDatapoints(datapoints.filter((_, i) => i !== index));
-	};
+	}, [updateDatapoints, datapoints]);
 
-	const updateDatapoint = (index: number, field: keyof DatapointConfig, value: unknown): void => {
-		const updated = datapoints.map((dp, i) => (i === index ? { ...dp, [field]: value } : dp));
-		updateDatapoints(updated);
-	};
+	const updateDatapoint = useCallback((index: number, field: keyof DatapointConfig, value: unknown): void => {
+		updateDatapoints(datapoints.map((dp, i) => (i === index ? { ...dp, [field]: value } : dp)));
+	}, [updateDatapoints, datapoints]);
+
+	const handleGroupFilterChange = useCallback((e: { target: { value: string } }) => setGroupFilter(e.target.value), []);
+	const handleCloseSelectId = useCallback(() => setSelectIdIndex(null), []);
 
 	const filteredDatapoints = datapoints
 		.map((dp, index) => ({ dp, index }))
@@ -79,20 +82,12 @@ export default function DatapointsTab({ native, onChange, socket, theme }: Datap
 
 	return (
 		<Box>
-			<Typography
-				variant="body2"
-				color="text.secondary"
-				sx={{ mb: 2 }}
-			>
+			<Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
 				{I18n.t('datapointsInfo')}
 			</Typography>
 
 			<Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2, flexWrap: 'wrap' }}>
-				<Button
-					variant="outlined"
-					startIcon={<AddIcon />}
-					onClick={addDatapoint}
-				>
+				<Button variant="outlined" startIcon={<AddIcon />} onClick={addDatapoint}>
 					{I18n.t('addDatapoint')}
 				</Button>
 				{groupNames.length > 0 && (
@@ -104,14 +99,11 @@ export default function DatapointsTab({ native, onChange, socket, theme }: Datap
 						<Select
 							value={groupFilter}
 							label={I18n.t('filterByGroup')}
-							onChange={e => setGroupFilter(e.target.value)}
+							onChange={handleGroupFilterChange}
 						>
 							<MenuItem value="">{I18n.t('allGroups')}</MenuItem>
 							{groupNames.map(name => (
-								<MenuItem
-									key={name}
-									value={name}
-								>
+								<MenuItem key={name} value={name}>
 									{name}
 								</MenuItem>
 							))}
@@ -121,11 +113,7 @@ export default function DatapointsTab({ native, onChange, socket, theme }: Datap
 			</Box>
 
 			{datapoints.length === 0 ? (
-				<Typography
-					variant="body2"
-					color="text.secondary"
-					sx={{ fontStyle: 'italic' }}
-				>
+				<Typography variant="body2" color="text.secondary" sx={{ fontStyle: 'italic' }}>
 					{I18n.t('noDatapointsDefined')}
 				</Typography>
 			) : (
@@ -144,10 +132,7 @@ export default function DatapointsTab({ native, onChange, socket, theme }: Datap
 						</TableHead>
 						<TableBody>
 							{filteredDatapoints.map(({ dp, index }) => (
-								<TableRow
-									key={index}
-									hover
-								>
+								<TableRow key={index} hover>
 									<TableCell padding="checkbox">
 										<Checkbox
 											checked={dp.enabled}
@@ -156,29 +141,19 @@ export default function DatapointsTab({ native, onChange, socket, theme }: Datap
 										/>
 									</TableCell>
 									<TableCell sx={{ minWidth: 140 }}>
-										<FormControl
-											fullWidth
-											size="small"
-											variant="standard"
-										>
+										<FormControl fullWidth size="small" variant="standard">
 											<Select
 												value={dp.group}
 												displayEmpty
 												onChange={e => updateDatapoint(index, 'group', e.target.value)}
 											>
 												{!dp.group && (
-													<MenuItem
-														value=""
-														disabled
-													>
+													<MenuItem value="" disabled>
 														<em>{I18n.t('selectGroup')}</em>
 													</MenuItem>
 												)}
 												{groupNames.map(name => (
-													<MenuItem
-														key={name}
-														value={name}
-													>
+													<MenuItem key={name} value={name}>
 														{name}
 													</MenuItem>
 												))}
@@ -255,7 +230,7 @@ export default function DatapointsTab({ native, onChange, socket, theme }: Datap
 					title={I18n.t('selectObject')}
 					types={['state']}
 					selected={datapoints[selectIdIndex]?.objectId || ''}
-					onClose={() => setSelectIdIndex(null)}
+					onClose={handleCloseSelectId}
 					onOk={selected => {
 						if (selected && selectIdIndex !== null) {
 							const id = Array.isArray(selected) ? selected[0] : selected;

@@ -1,12 +1,13 @@
 import { I18n } from '@iobroker/adapter-react-v5';
+import type { AdminConnection } from '@iobroker/adapter-react-v5';
 import { Alert, Box, Button, CircularProgress, Grid2 as Grid, TextField } from '@mui/material';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import type { NativeConfig } from '../types.d';
 
 interface ConnectionTabProps {
 	native: NativeConfig;
 	onChange: (attr: string, value: unknown) => void;
-	socket: any;
+	socket: AdminConnection;
 	instance: number;
 }
 
@@ -23,7 +24,7 @@ export default function ConnectionTab({ native, onChange, socket, instance }: Co
 	const [testing, setTesting] = useState(false);
 	const [testResult, setTestResult] = useState<{ success: boolean; message: string } | null>(null);
 
-	const testConnection = async (): Promise<void> => {
+	const testConnection = useCallback(async (): Promise<void> => {
 		setTesting(true);
 		setTestResult(null);
 		try {
@@ -31,31 +32,32 @@ export default function ConnectionTab({ native, onChange, socket, instance }: Co
 				url: native.url,
 				token: native.token,
 			});
-			if (result?.error) {
-				setTestResult({ success: false, message: result.error });
+			if ((result as { error?: string })?.error) {
+				setTestResult({ success: false, message: (result as { error: string }).error });
 			} else {
-				setTestResult({ success: true, message: result?.result || I18n.t('testSuccess') });
+				setTestResult({ success: true, message: (result as { result?: string })?.result || I18n.t('testSuccess') });
 			}
 		} catch (e: unknown) {
 			setTestResult({ success: false, message: e instanceof Error ? e.message : String(e) });
 		} finally {
 			setTesting(false);
 		}
-	};
+	}, [socket, instance, native.url, native.token]);
+
+	const handleUrlChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => onChange('url', e.target.value), [onChange]);
+	const handleOrgChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => onChange('organization', e.target.value), [onChange]);
+	const handleTokenChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => onChange('token', e.target.value), [onChange]);
 
 	return (
 		<Box>
-			<Grid
-				container
-				spacing={2}
-			>
+			<Grid container spacing={2}>
 				<Grid size={{ xs: 12 }}>
 					<TextField
 						fullWidth
 						label={I18n.t('url')}
 						value={native.url || ''}
 						placeholder={I18n.t('urlPlaceholder')}
-						onChange={e => onChange('url', e.target.value)}
+						onChange={handleUrlChange}
 						error={!native.url}
 						helperText={!native.url ? I18n.t('urlRequired') : I18n.t('urlHelperText')}
 					/>
@@ -65,7 +67,7 @@ export default function ConnectionTab({ native, onChange, socket, instance }: Co
 						fullWidth
 						label={I18n.t('organization')}
 						value={native.organization || ''}
-						onChange={e => onChange('organization', e.target.value)}
+						onChange={handleOrgChange}
 					/>
 				</Grid>
 				<Grid size={{ xs: 12, sm: 6 }}>
@@ -74,7 +76,7 @@ export default function ConnectionTab({ native, onChange, socket, instance }: Co
 						label={I18n.t('apiToken')}
 						type="password"
 						value={native.token || ''}
-						onChange={e => onChange('token', e.target.value)}
+						onChange={handleTokenChange}
 					/>
 				</Grid>
 				<Grid size={{ xs: 12 }}>
@@ -87,10 +89,7 @@ export default function ConnectionTab({ native, onChange, socket, instance }: Co
 						{I18n.t('testConnection')}
 					</Button>
 					{testResult && (
-						<Alert
-							severity={testResult.success ? 'success' : 'error'}
-							sx={{ mt: 1 }}
-						>
+						<Alert severity={testResult.success ? 'success' : 'error'} sx={{ mt: 1 }}>
 							{testResult.message}
 						</Alert>
 					)}

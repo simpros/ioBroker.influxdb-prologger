@@ -23,6 +23,11 @@ interface AppState extends GenericAppState {
 
 /** Main adapter configuration app */
 class App extends GenericApp<GenericAppProps, AppState> {
+	/** Bound handler for onChange prop — stable reference across renders */
+	private readonly handleNativeChange: (attr: string, value: unknown) => void;
+	/** Bound handler for tab changes */
+	private readonly handleTabChange: (_e: React.SyntheticEvent, v: number) => void;
+
 	/**
 	 * Creates a new App instance
 	 *
@@ -47,6 +52,8 @@ class App extends GenericApp<GenericAppProps, AppState> {
 		super(props, extendedProps);
 
 		Object.assign(this.state, { activeTab: 0 });
+		this.handleNativeChange = this.updateNativeValue.bind(this);
+		this.handleTabChange = (_e, v) => this.setState({ activeTab: v });
 	}
 
 	/** Called when the connection to the backend is ready */
@@ -115,7 +122,7 @@ class App extends GenericApp<GenericAppProps, AppState> {
 					<Box sx={{ borderBottom: 1, borderColor: 'divider', minWidth: 0 }}>
 						<Tabs
 							value={this.state.activeTab}
-							onChange={(_e, v) => this.setState({ activeTab: v })}
+							onChange={this.handleTabChange}
 							variant="scrollable"
 							scrollButtons="auto"
 							allowScrollButtonsMobile
@@ -156,7 +163,7 @@ class App extends GenericApp<GenericAppProps, AppState> {
 						{this.state.activeTab === 0 && (
 							<ConnectionTab
 								native={native}
-								onChange={(attr, value) => this.updateNativeValue(attr, value)}
+								onChange={this.handleNativeChange}
 								socket={this.socket}
 								instance={this.instance}
 							/>
@@ -164,13 +171,13 @@ class App extends GenericApp<GenericAppProps, AppState> {
 						{this.state.activeTab === 1 && (
 							<GroupsTab
 								native={native}
-								onChange={(attr, value) => this.updateNativeValue(attr, value)}
+								onChange={this.handleNativeChange}
 							/>
 						)}
 						{this.state.activeTab === 2 && (
 							<DatapointsTab
 								native={native}
-								onChange={(attr, value) => this.updateNativeValue(attr, value)}
+								onChange={this.handleNativeChange}
 								socket={this.socket}
 								theme={this.state.theme}
 							/>
@@ -178,7 +185,7 @@ class App extends GenericApp<GenericAppProps, AppState> {
 						{this.state.activeTab === 3 && (
 							<AdvancedTab
 								native={native}
-								onChange={(attr, value) => this.updateNativeValue(attr, value)}
+								onChange={this.handleNativeChange}
 							/>
 						)}
 					</Box>

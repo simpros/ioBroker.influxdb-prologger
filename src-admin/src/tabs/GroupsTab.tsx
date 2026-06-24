@@ -18,6 +18,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useCallback } from 'react';
 import type { LoggingGroup, NativeConfig } from '../types.d';
 
 interface GroupsTabProps {
@@ -43,48 +44,36 @@ const DEFAULT_GROUP: LoggingGroup = {
 export default function GroupsTab({ native, onChange }: GroupsTabProps): React.JSX.Element {
 	const groups = native.groups || [];
 
-	const updateGroups = (newGroups: LoggingGroup[]): void => {
+	const updateGroups = useCallback((newGroups: LoggingGroup[]): void => {
 		onChange('groups', newGroups);
-	};
+	}, [onChange]);
 
-	const addGroup = (): void => {
+	const addGroup = useCallback((): void => {
 		updateGroups([...groups, { ...DEFAULT_GROUP }]);
-	};
+	}, [updateGroups, groups]);
 
-	const deleteGroup = (index: number): void => {
+	const deleteGroup = useCallback((index: number): void => {
 		updateGroups(groups.filter((_, i) => i !== index));
-	};
+	}, [updateGroups, groups]);
 
-	const updateGroup = (index: number, field: keyof LoggingGroup, value: unknown): void => {
-		const updated = groups.map((g, i) => (i === index ? { ...g, [field]: value } : g));
-		updateGroups(updated);
-	};
+	const updateGroup = useCallback((index: number, field: keyof LoggingGroup, value: unknown): void => {
+		updateGroups(groups.map((g, i) => (i === index ? { ...g, [field]: value } : g)));
+	}, [updateGroups, groups]);
 
 	return (
 		<Box>
-			<Typography
-				variant="body2"
-				color="text.secondary"
-				sx={{ mb: 2 }}
-			>
+			<Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
 				{I18n.t('groupsInfo')}
 			</Typography>
 
 			{groups.length === 0 && (
-				<Typography
-					variant="body2"
-					color="text.secondary"
-					sx={{ mb: 2, fontStyle: 'italic' }}
-				>
+				<Typography variant="body2" color="text.secondary" sx={{ mb: 2, fontStyle: 'italic' }}>
 					{I18n.t('noGroupsDefined')}
 				</Typography>
 			)}
 
 			{groups.map((group, index) => (
-				<Accordion
-					key={index}
-					defaultExpanded={groups.length === 1}
-				>
+				<Accordion key={index} defaultExpanded={groups.length === 1}>
 					<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 						<Box
 							sx={{
@@ -126,10 +115,7 @@ export default function GroupsTab({ native, onChange }: GroupsTabProps): React.J
 						</Box>
 					</AccordionSummary>
 					<AccordionDetails>
-						<Grid
-							container
-							spacing={2}
-						>
+						<Grid container spacing={2}>
 							<Grid size={{ xs: 12, sm: 6 }}>
 								<TextField
 									fullWidth
@@ -175,12 +161,7 @@ export default function GroupsTab({ native, onChange }: GroupsTabProps): React.J
 				</Accordion>
 			))}
 
-			<Button
-				variant="outlined"
-				startIcon={<AddIcon />}
-				onClick={addGroup}
-				sx={{ mt: 2 }}
-			>
+			<Button variant="outlined" startIcon={<AddIcon />} onClick={addGroup} sx={{ mt: 2 }}>
 				{I18n.t('addGroup')}
 			</Button>
 		</Box>
