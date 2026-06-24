@@ -14,6 +14,10 @@
 
 Flexible InfluxDB v2 data logger with configurable logging groups, multiple buckets, cron-based and on-change triggers.
 
+> **Important:** This adapter is a **write-only data logger**. It sends ioBroker state values *to* InfluxDB v2 — it does **not** read historical data back into ioBroker and does not implement the standard ioBroker history adapter interface. If you need to query stored history data within ioBroker (e.g., for charts or scripts via `getHistory`), use the official [ioBroker InfluxDB adapter](https://github.com/ioBroker/ioBroker.influxdb) instead.
+>
+> The goal of this adapter is to give you more flexibility over *how* data is written to InfluxDB: you can define multiple logging groups with different buckets, trigger types (cron or on-change), custom measurement names, field keys, and tags — independent of ioBroker's built-in history system.
+
 ## Features
 
 - **Multiple Logging Groups** - Define separate groups with different InfluxDB buckets and trigger types
