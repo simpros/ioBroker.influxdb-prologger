@@ -6,8 +6,6 @@
 		"resolveJsonModule": true,
 		"strictNullChecks": true,
 		"target": "ES2022",
-		"baseUrl": "./",
-		"allowSyntheticDefaultImports": true,
 		"noEmit": true,
 		"sourceMap": true,
 		"noImplicitAny": true,
