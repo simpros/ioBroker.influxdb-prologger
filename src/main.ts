@@ -74,6 +74,7 @@ class InfluxdbPrologger extends utils.Adapter {
 			},
 			this.log,
 			this.config.enableDebugLogs,
+			this.setTimeout.bind(this),
 		);
 
 		// Resolve datapoints into groups

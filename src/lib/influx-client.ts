@@ -41,6 +41,8 @@ export class InfluxClient {
 	private readonly log: Logger;
 	/** Whether to emit debug-level logs. */
 	private readonly enableDebugLogs: boolean;
+	/** setTimeout-compatible function (allows adapter to provide this.setTimeout). */
+	private readonly scheduleTimeout: (callback: (...args: unknown[]) => void, ms: number) => unknown;
 
 	/**
 	 * Create a new InfluxDB client.
@@ -48,11 +50,18 @@ export class InfluxClient {
 	 * @param config - InfluxDB connection configuration
 	 * @param log - Logger instance
 	 * @param enableDebugLogs - Whether to emit debug-level logs
+	 * @param scheduleTimeout - setTimeout-compatible function; pass `this.setTimeout.bind(this)` from the adapter to ensure proper cleanup
 	 */
-	constructor(config: InfluxConnectionConfig, log: Logger, enableDebugLogs: boolean) {
+	constructor(
+		config: InfluxConnectionConfig,
+		log: Logger,
+		enableDebugLogs: boolean,
+		scheduleTimeout?: (callback: (...args: unknown[]) => void, ms: number) => unknown,
+	) {
 		this.config = config;
 		this.log = log;
 		this.enableDebugLogs = enableDebugLogs;
+		this.scheduleTimeout = scheduleTimeout ?? setTimeout;
 	}
 
 	/** Base URL for the InfluxDB instance (trailing slash stripped). */
@@ -117,7 +126,7 @@ export class InfluxClient {
 			// Wait before retry (exponential backoff)
 			if (attempt < maxAttempts) {
 				const delay = Math.min(1000 * Math.pow(2, attempt - 1), 10000);
-				await new Promise(resolve => setTimeout(resolve, delay));
+				await new Promise(resolve => this.scheduleTimeout(resolve, delay));
 			}
 		}
 
