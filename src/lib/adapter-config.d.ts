@@ -6,6 +6,8 @@ export interface LoggingGroup {
 	bucket: string;
 	triggerType: 'cron' | 'onChange';
 	cronExpression: string;
+	/** Duration of the fixed flush window in milliseconds (onChange groups only). Defaults to 5000. */
+	flushWindowMs?: number;
 }
 
 export interface DatapointConfig {

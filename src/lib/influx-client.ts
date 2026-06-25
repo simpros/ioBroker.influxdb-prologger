@@ -80,7 +80,7 @@ export class InfluxClient {
 	async write(bucket: string, lineData: string): Promise<boolean> {
 		const url =
 			`${this.baseUrl}/api/v2/write` +
-			`?bucket=${encodeURIComponent(bucket)}&org=${encodeURIComponent(this.config.organization)}`;
+			`?bucket=${encodeURIComponent(bucket)}&org=${encodeURIComponent(this.config.organization)}&precision=ms`;
 
 		let lastError: Error | null = null;
 		const maxAttempts = this.config.retryOnError ? (this.config.maxRetries || 3) + 1 : 1;

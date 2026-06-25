@@ -24,20 +24,23 @@ export function formatInfluxValue(value: ioBroker.StateValue): string {
 
 /**
  * Format a single InfluxDB line protocol entry.
- * Format: measurement,tag1=val1,tag2=val2 field=value
+ * Format: measurement,tag1=val1,tag2=val2 field=value [timestamp]
  *
  * @param measurement - InfluxDB measurement name
  * @param tags - Comma-separated tags (key=value format)
  * @param field - InfluxDB field name
  * @param value - The state value to format
+ * @param timestampMs - Optional Unix timestamp in milliseconds (state.ts). When provided, appended as the line-protocol timestamp.
  */
 export function formatLineProtocol(
 	measurement: string,
 	tags: string,
 	field: string,
 	value: ioBroker.StateValue,
+	timestampMs?: number,
 ): string {
 	const tagsPart = tags ? `,${tags}` : '';
 	const formattedValue = formatInfluxValue(value);
-	return `${measurement}${tagsPart} ${field}=${formattedValue}`;
+	const tsPart = timestampMs !== undefined ? ` ${timestampMs}` : '';
+	return `${measurement}${tagsPart} ${field}=${formattedValue}${tsPart}`;
 }
