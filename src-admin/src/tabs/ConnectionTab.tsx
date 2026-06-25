@@ -1,7 +1,7 @@
 import { I18n } from '@iobroker/adapter-react-v5';
 import type { AdminConnection } from '@iobroker/adapter-react-v5';
 import { Alert, Box, Button, CircularProgress, Grid2 as Grid, TextField } from '@mui/material';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import type { NativeConfig } from '../types.d';
 
 interface ConnectionTabProps {
@@ -24,7 +24,7 @@ export default function ConnectionTab({ native, onChange, socket, instance }: Co
 	const [testing, setTesting] = useState(false);
 	const [testResult, setTestResult] = useState<{ success: boolean; message: string } | null>(null);
 
-	const testConnection = useCallback(async (): Promise<void> => {
+	const testConnection = async (): Promise<void> => {
 		setTesting(true);
 		setTestResult(null);
 		try {
@@ -42,11 +42,7 @@ export default function ConnectionTab({ native, onChange, socket, instance }: Co
 		} finally {
 			setTesting(false);
 		}
-	}, [socket, instance, native.url, native.token]);
-
-	const handleUrlChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => onChange('url', e.target.value), [onChange]);
-	const handleOrgChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => onChange('organization', e.target.value), [onChange]);
-	const handleTokenChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => onChange('token', e.target.value), [onChange]);
+	};
 
 	return (
 		<Box>
@@ -57,7 +53,7 @@ export default function ConnectionTab({ native, onChange, socket, instance }: Co
 						label={I18n.t('url')}
 						value={native.url || ''}
 						placeholder={I18n.t('urlPlaceholder')}
-						onChange={handleUrlChange}
+						onChange={e => onChange('url', e.target.value)}
 						error={!native.url}
 						helperText={!native.url ? I18n.t('urlRequired') : I18n.t('urlHelperText')}
 					/>
@@ -67,7 +63,7 @@ export default function ConnectionTab({ native, onChange, socket, instance }: Co
 						fullWidth
 						label={I18n.t('organization')}
 						value={native.organization || ''}
-						onChange={handleOrgChange}
+						onChange={e => onChange('organization', e.target.value)}
 					/>
 				</Grid>
 				<Grid size={{ xs: 12, sm: 6 }}>
@@ -76,7 +72,7 @@ export default function ConnectionTab({ native, onChange, socket, instance }: Co
 						label={I18n.t('apiToken')}
 						type="password"
 						value={native.token || ''}
-						onChange={handleTokenChange}
+						onChange={e => onChange('token', e.target.value)}
 					/>
 				</Grid>
 				<Grid size={{ xs: 12 }}>

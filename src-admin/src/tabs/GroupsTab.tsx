@@ -18,7 +18,6 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useCallback } from 'react';
 import type { LoggingGroup, NativeConfig } from '../types.d';
 
 interface GroupsTabProps {
@@ -44,21 +43,21 @@ const DEFAULT_GROUP: LoggingGroup = {
 export default function GroupsTab({ native, onChange }: GroupsTabProps): React.JSX.Element {
 	const groups = native.groups || [];
 
-	const updateGroups = useCallback((newGroups: LoggingGroup[]): void => {
+	const updateGroups = (newGroups: LoggingGroup[]): void => {
 		onChange('groups', newGroups);
-	}, [onChange]);
+	};
 
-	const addGroup = useCallback((): void => {
+	const addGroup = (): void => {
 		updateGroups([...groups, { ...DEFAULT_GROUP }]);
-	}, [updateGroups, groups]);
+	};
 
-	const deleteGroup = useCallback((index: number): void => {
+	const deleteGroup = (index: number): void => {
 		updateGroups(groups.filter((_, i) => i !== index));
-	}, [updateGroups, groups]);
+	};
 
-	const updateGroup = useCallback((index: number, field: keyof LoggingGroup, value: unknown): void => {
+	const updateGroup = (index: number, field: keyof LoggingGroup, value: unknown): void => {
 		updateGroups(groups.map((g, i) => (i === index ? { ...g, [field]: value } : g)));
-	}, [updateGroups, groups]);
+	};
 
 	return (
 		<Box>
