@@ -1,3 +1,9 @@
+/**
+ *
+ * @param adapterNamespace
+ * @param stateId
+ * @param ack
+ */
 export function shouldProcessOnChangeState(
 	adapterNamespace: string,
 	stateId: string,

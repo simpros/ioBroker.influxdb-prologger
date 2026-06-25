@@ -1,7 +1,6 @@
 // ioBroker eslint template configuration file for js and ts files
 // Please note that esm or react based modules need additional modules loaded.
 import config from '@iobroker/eslint-config';
-import reactCompiler from 'eslint-plugin-react-compiler';
 
 export default [
 	...config,
@@ -25,14 +24,6 @@ export default [
 			'**/adapter-config.d.ts',
 			'widgets/**/*.js'
 		],
-	},
-	{
-		plugins: {
-			'react-compiler': reactCompiler,
-		},
-		rules: {
-			'react-compiler/react-compiler': 'error',
-		},
 	},
 	{
 		// you may disable some 'jsdoc' warnings - but using jsdoc is highly recommended

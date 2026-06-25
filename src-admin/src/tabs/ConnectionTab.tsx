@@ -35,7 +35,10 @@ export default function ConnectionTab({ native, onChange, socket, instance }: Co
 			if ((result as { error?: string })?.error) {
 				setTestResult({ success: false, message: (result as { error: string }).error });
 			} else {
-				setTestResult({ success: true, message: (result as { result?: string })?.result || I18n.t('testSuccess') });
+				setTestResult({
+					success: true,
+					message: (result as { result?: string })?.result || I18n.t('testSuccess'),
+				});
 			}
 		} catch (e: unknown) {
 			setTestResult({ success: false, message: e instanceof Error ? e.message : String(e) });
@@ -46,7 +49,10 @@ export default function ConnectionTab({ native, onChange, socket, instance }: Co
 
 	return (
 		<Box>
-			<Grid container spacing={2}>
+			<Grid
+				container
+				spacing={2}
+			>
 				<Grid size={{ xs: 12 }}>
 					<TextField
 						fullWidth
@@ -85,7 +91,10 @@ export default function ConnectionTab({ native, onChange, socket, instance }: Co
 						{I18n.t('testConnection')}
 					</Button>
 					{testResult && (
-						<Alert severity={testResult.success ? 'success' : 'error'} sx={{ mt: 1 }}>
+						<Alert
+							severity={testResult.success ? 'success' : 'error'}
+							sx={{ mt: 1 }}
+						>
 							{testResult.message}
 						</Alert>
 					)}

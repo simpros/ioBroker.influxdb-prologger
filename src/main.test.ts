@@ -78,7 +78,7 @@ describe('adapter data flow', () => {
 			ok: true,
 			status: 204,
 			text: sinon.stub().resolves(''),
-		} as unknown as Response);
+		});
 
 		const client = new InfluxClient(
 			{
@@ -152,7 +152,7 @@ describe('adapter data flow', () => {
 			ok: false,
 			status: 400,
 			text: sinon.stub().resolves('invalid line protocol'),
-		} as unknown as Response);
+		});
 
 		const errLog = { debug: sinon.stub(), info: sinon.stub(), warn: sinon.stub(), error: sinon.stub() };
 		const client = new InfluxClient(

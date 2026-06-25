@@ -79,12 +79,20 @@ export default function DatapointsTab({ native, onChange, socket, theme }: Datap
 
 	return (
 		<Box>
-			<Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+			<Typography
+				variant="body2"
+				color="text.secondary"
+				sx={{ mb: 2 }}
+			>
 				{I18n.t('datapointsInfo')}
 			</Typography>
 
 			<Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2, flexWrap: 'wrap' }}>
-				<Button variant="outlined" startIcon={<AddIcon />} onClick={addDatapoint}>
+				<Button
+					variant="outlined"
+					startIcon={<AddIcon />}
+					onClick={addDatapoint}
+				>
 					{I18n.t('addDatapoint')}
 				</Button>
 				{groupNames.length > 0 && (
@@ -100,7 +108,10 @@ export default function DatapointsTab({ native, onChange, socket, theme }: Datap
 						>
 							<MenuItem value="">{I18n.t('allGroups')}</MenuItem>
 							{groupNames.map(name => (
-								<MenuItem key={name} value={name}>
+								<MenuItem
+									key={name}
+									value={name}
+								>
 									{name}
 								</MenuItem>
 							))}
@@ -110,7 +121,11 @@ export default function DatapointsTab({ native, onChange, socket, theme }: Datap
 			</Box>
 
 			{datapoints.length === 0 ? (
-				<Typography variant="body2" color="text.secondary" sx={{ fontStyle: 'italic' }}>
+				<Typography
+					variant="body2"
+					color="text.secondary"
+					sx={{ fontStyle: 'italic' }}
+				>
 					{I18n.t('noDatapointsDefined')}
 				</Typography>
 			) : (
@@ -129,7 +144,10 @@ export default function DatapointsTab({ native, onChange, socket, theme }: Datap
 						</TableHead>
 						<TableBody>
 							{filteredDatapoints.map(({ dp, index }) => (
-								<TableRow key={index} hover>
+								<TableRow
+									key={index}
+									hover
+								>
 									<TableCell padding="checkbox">
 										<Checkbox
 											checked={dp.enabled}
@@ -138,19 +156,29 @@ export default function DatapointsTab({ native, onChange, socket, theme }: Datap
 										/>
 									</TableCell>
 									<TableCell sx={{ minWidth: 140 }}>
-										<FormControl fullWidth size="small" variant="standard">
+										<FormControl
+											fullWidth
+											size="small"
+											variant="standard"
+										>
 											<Select
 												value={dp.group}
 												displayEmpty
 												onChange={e => updateDatapoint(index, 'group', e.target.value)}
 											>
 												{!dp.group && (
-													<MenuItem value="" disabled>
+													<MenuItem
+														value=""
+														disabled
+													>
 														<em>{I18n.t('selectGroup')}</em>
 													</MenuItem>
 												)}
 												{groupNames.map(name => (
-													<MenuItem key={name} value={name}>
+													<MenuItem
+														key={name}
+														value={name}
+													>
 														{name}
 													</MenuItem>
 												))}
