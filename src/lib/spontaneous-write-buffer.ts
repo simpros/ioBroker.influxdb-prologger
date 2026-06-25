@@ -24,7 +24,12 @@ interface BufferSlot {
 	timerId: ReturnType<typeof setTimeout> | null;
 }
 
-/** Composite key for a (bucket, group) pair. */
+/**
+ * Composite key for a (bucket, group) pair.
+ *
+ * @param bucket - Target InfluxDB bucket
+ * @param group - Logical group name
+ */
 function makeKey(bucket: string, group: string): string {
 	return `${bucket}\0${group}`;
 }
@@ -91,7 +96,11 @@ export class SpontaneousWriteBuffer {
 		return results.every(r => r);
 	}
 
-	/** Flush a single slot and remove it from the map. */
+	/**
+	 * Flush a single slot and remove it from the map.
+	 *
+	 * @param key - Composite (bucket, group) key
+	 */
 	private async flushSlot(key: string): Promise<boolean> {
 		const slot = this.slots.get(key);
 		if (!slot || slot.lines.length === 0) {

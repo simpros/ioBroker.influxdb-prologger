@@ -198,10 +198,7 @@ class InfluxdbPrologger extends utils.Adapter {
 		);
 
 		// Create a dedicated Spontaneous Write Buffer for this group
-		const buffer = new SpontaneousWriteBuffer(
-			this.influxClient.write.bind(this.influxClient),
-			windowMs,
-		);
+		const buffer = new SpontaneousWriteBuffer(this.influxClient.write.bind(this.influxClient), windowMs);
 		this.spontaneousBuffers.set(group.name, buffer);
 
 		for (const dp of datapoints) {
@@ -251,7 +248,9 @@ class InfluxdbPrologger extends utils.Adapter {
 			);
 
 			if (this.config.enableDebugLogs) {
-				this.log.debug(`Buffered spontaneous write for "${id}" -> group "${group.name}" bucket "${group.bucket}": ${line}`);
+				this.log.debug(
+					`Buffered spontaneous write for "${id}" -> group "${group.name}" bucket "${group.bucket}": ${line}`,
+				);
 			}
 
 			const buffer = this.spontaneousBuffers.get(group.name);

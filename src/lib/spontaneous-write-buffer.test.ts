@@ -56,7 +56,10 @@ describe('SpontaneousWriteBuffer', () => {
 		await clock.tickAsync(5000);
 
 		expect(writer.write).to.have.been.calledTwice;
-		const calls = writer.write.args.map((args: unknown[]) => ({ bucket: args[0] as string, lines: args[1] as string }));
+		const calls = writer.write.args.map((args: unknown[]) => ({
+			bucket: args[0] as string,
+			lines: args[1] as string,
+		}));
 		const callA = calls.find((c: { bucket: string }) => c.bucket === 'bucket-a');
 		const callB = calls.find((c: { bucket: string }) => c.bucket === 'bucket-b');
 		expect(callA).to.exist;
