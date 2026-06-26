@@ -43,6 +43,7 @@
 	"urlHelperText": "URL complète incluant le protocole et le port, par ex. https://influxdb.example.com",
 	"urlPlaceholder": "http://192.168.1.100:8086",
 	"urlRequired": "L'URL d'InfluxDB est requise",
+	"flushWindowMs": "Fenêtre de vidage (ms)",
 	"writeTimeout": "Délai d'expiration d'écriture (ms)",
 	"writeTimeoutHelp": "Délai d'expiration de la requête HTTP pour les opérations d'écriture InfluxDB"
 }

@@ -28,17 +28,21 @@ class InfluxClient {
   log;
   /** Whether to emit debug-level logs. */
   enableDebugLogs;
+  /** setTimeout-compatible function (allows adapter to provide this.setTimeout). */
+  scheduleTimeout;
   /**
    * Create a new InfluxDB client.
    *
    * @param config - InfluxDB connection configuration
    * @param log - Logger instance
    * @param enableDebugLogs - Whether to emit debug-level logs
+   * @param scheduleTimeout - setTimeout-compatible function; pass `this.setTimeout.bind(this)` from the adapter to ensure proper cleanup
    */
-  constructor(config, log, enableDebugLogs) {
+  constructor(config, log, enableDebugLogs, scheduleTimeout) {
     this.config = config;
     this.log = log;
     this.enableDebugLogs = enableDebugLogs;
+    this.scheduleTimeout = scheduleTimeout != null ? scheduleTimeout : setTimeout;
   }
   /** Base URL for the InfluxDB instance (trailing slash stripped). */
   get baseUrl() {
@@ -53,7 +57,7 @@ class InfluxClient {
    * @returns `true` on success, `false` on final failure
    */
   async write(bucket, lineData) {
-    const url = `${this.baseUrl}/api/v2/write?bucket=${encodeURIComponent(bucket)}&org=${encodeURIComponent(this.config.organization)}`;
+    const url = `${this.baseUrl}/api/v2/write?bucket=${encodeURIComponent(bucket)}&org=${encodeURIComponent(this.config.organization)}&precision=ms`;
     let lastError = null;
     const maxAttempts = this.config.retryOnError ? (this.config.maxRetries || 3) + 1 : 1;
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
@@ -90,7 +94,7 @@ class InfluxClient {
       }
       if (attempt < maxAttempts) {
         const delay = Math.min(1e3 * Math.pow(2, attempt - 1), 1e4);
-        await new Promise((resolve) => setTimeout(resolve, delay));
+        await new Promise((resolve) => this.scheduleTimeout(resolve, delay));
       }
     }
     if (lastError) {

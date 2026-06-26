@@ -43,6 +43,7 @@
 	"urlHelperText": "Полный URL-адрес, включая протокол и порт, например. https://influxdb.example.com",
 	"urlPlaceholder": "http://192.168.1.100:8086",
 	"urlRequired": "Требуется URL-адрес InfluxDB.",
+	"flushWindowMs": "Окно сброса (мс)",
 	"writeTimeout": "Тайм-аут записи (мс)",
 	"writeTimeoutHelp": "Тайм-аут HTTP-запроса для операций записи InfluxDB"
 }

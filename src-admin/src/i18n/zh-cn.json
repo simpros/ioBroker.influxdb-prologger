@@ -43,6 +43,7 @@
 	"urlHelperText": "完整 URL，包含协议和端口，例如 https://influxdb.example.com",
 	"urlPlaceholder": "http://192.168.1.100:8086",
 	"urlRequired": "必须填写 InfluxDB URL",
+	"flushWindowMs": "刷新窗口（毫秒）",
 	"writeTimeout": "写入超时（毫秒）",
 	"writeTimeoutHelp": "InfluxDB 写入操作的 HTTP 请求超时"
 }
