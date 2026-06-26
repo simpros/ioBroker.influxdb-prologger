@@ -176,7 +176,7 @@ export default function GroupsTab({ native, onChange }: GroupsTabProps): React.J
 										type="number"
 										label={I18n.t('flushWindowMs')}
 										value={group.flushWindowMs ?? 5000}
-slotProps={{ htmlInput: { min: 100 } }}
+										slotProps={{ htmlInput: { min: 100 } }}
 										onChange={e =>
 											updateGroup(index, 'flushWindowMs', parseInt(e.target.value, 10) || 5000)
 										}

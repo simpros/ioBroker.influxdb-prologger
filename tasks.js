@@ -1,7 +1,7 @@
 const { copyFileSync, existsSync, mkdirSync } = require('node:fs');
 const { join, dirname } = require('node:path');
 const { execFileSync } = require('node:child_process');
-const { deleteFoldersRecursive, copyFiles, patchHtmlFile } = require('@iobroker/build-tools');
+const { deleteFoldersRecursive, copyFiles } = require('@iobroker/build-tools');
 
 const srcAdmin = `${__dirname}/src-admin`;
 const admin = `${__dirname}/admin`;
