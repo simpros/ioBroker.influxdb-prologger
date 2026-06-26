@@ -26,8 +26,7 @@ async function copyAllFiles() {
 		mkdirSync(admin, { recursive: true });
 	}
 	copyFiles([`${srcAdmin}/build/**/*`, `!${srcAdmin}/build/index.html`], 'admin/');
-	copyFileSync(`${srcAdmin}/build/index.html`, `${admin}/index_m.html`);
-	await patchHtmlFile(`${admin}/index_m.html`);
+	copyFileSync(`${srcAdmin}/build/index.html`, `${admin}/index.html`);
 }
 
 async function main() {
