@@ -158,10 +158,11 @@ If you are currently using ioBroker JavaScript scripts for InfluxDB logging, you
 | `release` | Create a new release |
 
 ## Changelog
-### **WORK IN PROGRESS**
-- (ioBroker-Bot) Adapter requires admin >= 7.8.23 now.
+### 1.1.0 (2026-06-26)
 
+* (ioBroker-Bot) Adapter requires admin >= 7.8.23 now.
 * (Simon Prosen) Reduced excess spacing in the admin UI header by keeping configuration tab labels on a single line
+* (Simon Prosen) Spontaneous (on-change) writes are now buffered with a configurable flush window (default 5000ms, adjustable per bucket)
 
 ### 1.0.1 (2026-04-13)
 
