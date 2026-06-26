@@ -31,10 +31,11 @@ function formatInfluxValue(value) {
   }
   return String(value);
 }
-function formatLineProtocol(measurement, tags, field, value) {
+function formatLineProtocol(measurement, tags, field, value, timestampMs) {
   const tagsPart = tags ? `,${tags}` : "";
   const formattedValue = formatInfluxValue(value);
-  return `${measurement}${tagsPart} ${field}=${formattedValue}`;
+  const tsPart = timestampMs !== void 0 ? ` ${timestampMs}` : "";
+  return `${measurement}${tagsPart} ${field}=${formattedValue}${tsPart}`;
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

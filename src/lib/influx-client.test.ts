@@ -54,7 +54,7 @@ describe('InfluxClient', () => {
 			expect(fetchStub).to.have.been.calledOnce;
 
 			const [url, opts] = fetchStub.firstCall.args;
-			expect(url).to.equal('http://localhost:8086/api/v2/write?bucket=my-bucket&org=myorg');
+			expect(url).to.equal('http://localhost:8086/api/v2/write?bucket=my-bucket&org=myorg&precision=ms');
 			expect(opts.method).to.equal('POST');
 			expect(opts.headers['Content-Type']).to.equal('text/plain');
 			expect(opts.headers.Authorization).to.equal('Token test-token');

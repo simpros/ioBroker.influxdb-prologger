@@ -169,6 +169,20 @@ export default function GroupsTab({ native, onChange }: GroupsTabProps): React.J
 									/>
 								</Grid>
 							)}
+							{group.triggerType === 'onChange' && (
+								<Grid size={{ xs: 12, sm: 4 }}>
+									<TextField
+										fullWidth
+										type="number"
+										label={I18n.t('flushWindowMs')}
+										value={group.flushWindowMs ?? 5000}
+										slotProps={{ htmlInput: { min: 100 } }}
+										onChange={e =>
+											updateGroup(index, 'flushWindowMs', parseInt(e.target.value, 10) || 5000)
+										}
+									/>
+								</Grid>
+							)}
 						</Grid>
 					</AccordionDetails>
 				</Accordion>

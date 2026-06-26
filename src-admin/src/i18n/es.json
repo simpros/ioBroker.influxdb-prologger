@@ -43,6 +43,7 @@
 	"urlHelperText": "URL completa, incluido el protocolo y el puerto, p. https://influxdb.ejemplo.com",
 	"urlPlaceholder": "http://192.168.1.100:8086",
 	"urlRequired": "La URL de InfluxDB es obligatoria",
+	"flushWindowMs": "Ventana de volcado (ms)",
 	"writeTimeout": "Tiempo de espera de escritura (ms)",
 	"writeTimeoutHelp": "Tiempo de espera de solicitud HTTP para operaciones de escritura de InfluxDB"
 }

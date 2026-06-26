@@ -12,12 +12,15 @@ import type { DatapointConfig, LoggingGroup } from './lib/adapter-config';
 import { buildGroupNameOptions, resolveGroups, type ResolvedGroup } from './lib/group-resolver';
 import { InfluxClient } from './lib/influx-client';
 import { formatLineProtocol } from './lib/line-protocol';
+import { SpontaneousWriteBuffer } from './lib/spontaneous-write-buffer';
 import { shouldProcessOnChangeState } from './lib/state-change';
 
 class InfluxdbPrologger extends utils.Adapter {
 	private cronJobs: CronJob[] = [];
 	private onChangeMap: Map<string, { group: LoggingGroup; datapoint: DatapointConfig }[]> = new Map();
 	private influxClient!: InfluxClient;
+	/** One buffer per onChange group, keyed by group name. */
+	private spontaneousBuffers: Map<string, SpontaneousWriteBuffer> = new Map();
 
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
@@ -187,11 +190,16 @@ class InfluxdbPrologger extends utils.Adapter {
 	 */
 	private setupOnChangeGroup(resolved: ResolvedGroup): void {
 		const { group, datapoints } = resolved;
+		const windowMs = group.flushWindowMs ?? 5000;
 
 		this.log.info(
 			`Setting up on-change group "${group.name}" ` +
-				`-> bucket "${group.bucket}" (${datapoints.length} data points)`,
+				`-> bucket "${group.bucket}" (${datapoints.length} data points, flush window ${windowMs}ms)`,
 		);
+
+		// Create a dedicated Spontaneous Write Buffer for this group
+		const buffer = new SpontaneousWriteBuffer(this.influxClient.write.bind(this.influxClient), windowMs);
+		this.spontaneousBuffers.set(group.name, buffer);
 
 		for (const dp of datapoints) {
 			// Build the reverse lookup map: objectId -> [{group, datapoint}]
@@ -206,12 +214,13 @@ class InfluxdbPrologger extends utils.Adapter {
 
 	/**
 	 * Called when a subscribed state changes.
-	 * Handles on-change groups by writing the new value to InfluxDB.
+	 * Pushes the new value into the Spontaneous Write Buffer for the group;
+	 * the buffer will flush to InfluxDB when the fixed flush window expires.
 	 *
 	 * @param id - The state ID that changed
 	 * @param state - The new state value
 	 */
-	private async onStateChange(id: string, state: ioBroker.State | null | undefined): Promise<void> {
+	private onStateChange(id: string, state: ioBroker.State | null | undefined): void {
 		if (!state || state.val === null || state.val === undefined) {
 			return;
 		}
@@ -230,15 +239,23 @@ class InfluxdbPrologger extends utils.Adapter {
 				continue;
 			}
 
-			const line = formatLineProtocol(datapoint.measurement, datapoint.tags, datapoint.field, state.val);
+			const line = formatLineProtocol(
+				datapoint.measurement,
+				datapoint.tags,
+				datapoint.field,
+				state.val,
+				state.ts,
+			);
 
 			if (this.config.enableDebugLogs) {
-				this.log.debug(`On-change write for "${id}" -> bucket "${group.bucket}": ${line}`);
+				this.log.debug(
+					`Buffered spontaneous write for "${id}" -> group "${group.name}" bucket "${group.bucket}": ${line}`,
+				);
 			}
 
-			const success = await this.influxClient.write(group.bucket, line);
-			if (!success) {
-				void this.setStateAsync('info.connection', false, true);
+			const buffer = this.spontaneousBuffers.get(group.name);
+			if (buffer) {
+				buffer.push(group.bucket, group.name, line);
 			}
 		}
 	}
@@ -283,25 +300,36 @@ class InfluxdbPrologger extends utils.Adapter {
 
 	/**
 	 * Is called when adapter shuts down - cleanup all resources.
+	 * Flushes any pending spontaneous write buffers before stopping.
 	 *
 	 * @param callback - Callback to signal completion
 	 */
 	private onUnload(callback: () => void): void {
-		try {
-			// Stop all cron jobs
-			for (const job of this.cronJobs) {
-				void job.stop();
-			}
-			this.cronJobs = [];
-			this.onChangeMap.clear();
-
-			void this.setStateAsync('info.connection', false, true);
-
-			callback();
-		} catch (error) {
-			this.log.error(`Error during unloading: ${(error as Error).message}`);
-			callback();
+		// Stop all cron jobs
+		for (const job of this.cronJobs) {
+			void job.stop();
 		}
+		this.cronJobs = [];
+		this.onChangeMap.clear();
+
+		// Flush all pending spontaneous write buffers then clean up
+		const buffers = [...this.spontaneousBuffers.values()];
+		this.spontaneousBuffers.clear();
+
+		void this.setStateAsync('info.connection', false, true);
+
+		if (buffers.length === 0) {
+			callback();
+			return;
+		}
+
+		Promise.all(buffers.map(b => b.flushAll())).then(
+			() => callback(),
+			(err: unknown) => {
+				this.log.error(`Error flushing buffers on unload: ${(err as Error).message}`);
+				callback();
+			},
+		);
 	}
 }
 

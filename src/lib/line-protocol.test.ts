@@ -82,5 +82,21 @@ describe('line-protocol', () => {
 			const result = formatLineProtocol('counter', '', 'count', 0);
 			expect(result).to.equal('counter count=0');
 		});
+
+		it('should append the timestamp in milliseconds when provided', () => {
+			const result = formatLineProtocol('temperature', '', 'value', 21.5, 1700000000000);
+			expect(result).to.equal('temperature value=21.5 1700000000000');
+		});
+
+		it('should append the timestamp with tags when provided', () => {
+			const result = formatLineProtocol('temperature', 'room=living', 'value', 21.5, 1700000000000);
+			expect(result).to.equal('temperature,room=living value=21.5 1700000000000');
+		});
+
+		it('should omit timestamp when not provided', () => {
+			const result = formatLineProtocol('temperature', '', 'value', 21.5);
+			expect(result).to.not.include(' 1700000000000');
+			expect(result).to.equal('temperature value=21.5');
+		});
 	});
 });

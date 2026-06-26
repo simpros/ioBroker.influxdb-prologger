@@ -17,6 +17,8 @@ export interface LoggingGroup {
 	triggerType: 'cron' | 'onChange';
 	/** Cron schedule expression */
 	cronExpression: string;
+	/** Duration of the fixed flush window in milliseconds (onChange groups only). Defaults to 5000. */
+	flushWindowMs?: number;
 }
 
 /** Configuration for a single datapoint */
